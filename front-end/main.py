@@ -44,12 +44,14 @@ badges_layout = [
     [Image(r'picture_placeholder.png')],
     [Image(r'picture_placeholder.png')],
 ]
+
 # layout for the goals
 goals_layout = [
     [Text("GOALS")],
     # listing the goals
     [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')],
-    [Button("+", key='-ADD_GOAL-')],
+    # add goal button
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
 ]
 
 my_profile_layout = [
