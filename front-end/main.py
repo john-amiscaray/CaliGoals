@@ -14,34 +14,17 @@ format:
 
 #----- sublayouts -----#
 
-slogan_layout = [
-    sg.Text("Slogan"),
-]
-
-credentials_layout = [
-    sg.Text("username"),
-    sg.Input()
-]
-
-# login_bot_layout = [
-#     [
-#         sg.Column(slogan_layout),
-#         sg.VSeparator(),
-#         sg.Column(credentials_layout),
-#     ]
-# ]
-
-
-logo_layout = [
-    [sg.Image(r'cat.png')], # the login image
+login_page_layout = [
+    [sg.Image(r'cat.png')],
+    [sg.Text('Slogan'), sg.Input()]
 ]
 
 
 #----- layout -----#
 
+# where we put all the page layouts together as columns
 layout = [
-    [logo_layout],
-    [slogan_layout],
+    [sg.Column(login_page_layout, visible=True)]
 ]
 
 window = sg.Window('login test', layout)
