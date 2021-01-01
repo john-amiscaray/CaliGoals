@@ -1,5 +1,8 @@
 package io.caligoals.caligoals.entities;
 
+import io.caligoals.caligoals.dtos.UserDto;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    @Column(name="username", nullable = false, length = 30)
+    @Column(name="username", nullable = false, length = 30, unique = true)
     private String username;
 
     @Column(nullable = false, name="pass")
@@ -31,6 +34,21 @@ public class User {
 
     @OneToMany(mappedBy = "goalId.user")
     private List<Goal> goals;
+
+    public User(UserDto userDto, BCryptPasswordEncoder encoder){
+
+        username = userDto.getUsername();
+        password = encoder.encode(userDto.getPassword());
+        growthAmount = 0L;
+
+    }
+
+    public User(){
+
+
+
+
+    }
 
     public Long getUserId() {
         return userId;
