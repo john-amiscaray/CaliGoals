@@ -32,9 +32,6 @@ login_page_layout = [
     [Text('Track your progress, \nWith Cats!', size = (30,10)), bottom_right],
 ]
 
-
-
-
 # layout for the info bar at top
 top_bar_layout = [
     [Button('Friends'), Button('USERNAME_PLACEHOLDER'), Image(r'picture_placeholder.png')] # top row of the profile
