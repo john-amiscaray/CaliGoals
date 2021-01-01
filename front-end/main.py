@@ -34,15 +34,10 @@ badges_layout = [
 
 # layout for the goals
 goals_layout = [
-    [
-        Text("GOALS")
-    ],
-    [
-        Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')
-    ],
-    [
-        Button("+", key='-ADD_GOAL-')
-    ],
+    [Text("GOALS")],
+    # listing the goals
+    [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')],
+    [Button("+", key='-ADD_GOAL-')],
 ]
 
 # layout for your profile
