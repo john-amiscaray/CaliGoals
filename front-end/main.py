@@ -16,7 +16,7 @@ format:
 
 login_page_layout = [
     [sg.Image(r'cat.png')],
-    [sg.Text('Slogan'), sg.Input()]
+    [sg.Text('Slogan'), sg.Input(), sg.Text("I love waffles")]
 ]
 
 
