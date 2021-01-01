@@ -15,11 +15,25 @@ format:
 
 #----- sublayouts -----#
 
-# layout for the login page
+# layout for the login page by Johan yeye kewl ;3
+
+# ---Login Column---#
+bottom_right = Column([
+    [Text("Username")],
+    [Input(key="-USERNAME-")],
+    [Text("Password")],
+    [Input(key=("-PASSWORD-"))]
+])
+
+#---Login PAGE---#
+
 login_page_layout = [
     [Image(r'cat.png')],
-    [Text('Slogan'), Input()]
+    [Text('Track your progress, \nWith Cats!', size = (30,10)), bottom_right],
 ]
+
+
+
 
 # layout for the info bar at top
 top_bar_layout = [
@@ -31,7 +45,6 @@ badges_layout = [
     [Image(r'picture_placeholder.png')],
     [Image(r'picture_placeholder.png')],
 ]
-
 # layout for the goals
 goals_layout = [
     [Text("GOALS")],
@@ -39,6 +52,12 @@ goals_layout = [
     [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')],
     [Button("+", key='-ADD_GOAL-')],
 ]
+
+my_profile_layout = [
+    [top_bar_layout],
+    [Image(r'picture_placeholder.png'), badges_layout, goals_layout]
+]
+
 
 # layout for your profile
 my_profile_layout = [
@@ -49,6 +68,7 @@ my_profile_layout = [
 
 # where we put all the page layouts together as columns
 layout = [
+
     [Column(login_page_layout, visible=False, key='-LOGIN-')],
     [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
     [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
