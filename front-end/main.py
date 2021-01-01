@@ -19,6 +19,7 @@ login_page_layout = [
     [sg.Text('Slogan'), sg.Input(), sg.Text("I love waffles")]
 ]
 
+cheese = 'cheese'
 
 #----- layout -----#
 
