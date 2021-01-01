@@ -42,11 +42,20 @@ top_bar_layout = [
 
 # layout for the badges
 badges_layout = [
-    [Listbox]
+    [Image(r'picture_placeholder.png')],
+    [Image(r'picture_placeholder.png')],
 ]
-
+# layout for the goals
 goals_layout = [
-
+    [
+        Text("GOALS")
+    ],
+    [
+        Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')
+    ],
+    [
+        Button("+", key='-ADD_GOAL-')
+    ],
 ]
 
 my_profile_layout = [
@@ -55,13 +64,19 @@ my_profile_layout = [
 ]
 
 
+# layout for your profile
+my_profile_layout = [
+    [Image(r'picture_placeholder.png'), Column(badges_layout), Column(goals_layout)],
+]
 
 #----- layout -----#
 
 # where we put all the page layouts together as columns
 layout = [
-    [Column(login_page_layout, visible=True)],
-    [Column(top_bar_layout, visible=False)],
+
+    [Column(login_page_layout, visible=False, key='-LOGIN-')],
+    [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
+    [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
 ]
 
 window = Window('login test', layout)
