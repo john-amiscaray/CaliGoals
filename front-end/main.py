@@ -32,9 +32,6 @@ login_page_layout = [
     [Text('Track your progress, \nWith Cats!', size = (30,10)), bottom_right],
 ]
 
-
-
-
 # layout for the info bar at top
 top_bar_layout = [
     [Button('Friends'), Button('USERNAME_PLACEHOLDER'), Image(r'picture_placeholder.png')] # top row of the profile
@@ -45,12 +42,14 @@ badges_layout = [
     [Image(r'picture_placeholder.png')],
     [Image(r'picture_placeholder.png')],
 ]
+
 # layout for the goals
 goals_layout = [
     [Text("GOALS")],
     # listing the goals
     [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')],
-    [Button("+", key='-ADD_GOAL-')],
+    # add goal button
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
 ]
 
 my_profile_layout = [
