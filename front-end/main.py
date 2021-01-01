@@ -15,11 +15,25 @@ format:
 
 #----- sublayouts -----#
 
-# layout for the login page
+# layout for the login page by Johan yeye kewl ;3
+
+# ---Login Column---#
+bottom_right = Column([
+    [Text("Username")],
+    [Input(key="-USERNAME-")],
+    [Text("Password")],
+    [Input(key=("-PASSWORD-"))]
+])
+
+#---Login PAGE---#
+
 login_page_layout = [
     [Image(r'cat.png')],
-    [Text('Slogan'), Input()]
+    [Text('Track your progress, \nWith Cats!', size = (30,10)), bottom_right],
 ]
+
+
+
 
 # layout for the info bar at top
 top_bar_layout = [
@@ -29,6 +43,10 @@ top_bar_layout = [
 # layout for the badges
 badges_layout = [
     [Listbox]
+]
+
+goals_layout = [
+
 ]
 
 my_profile_layout = [
@@ -42,8 +60,8 @@ my_profile_layout = [
 
 # where we put all the page layouts together as columns
 layout = [
-    [Column(login_page_layout, visible=False)],
-    [Column(top_bar_layout, visible=True)],
+    [Column(login_page_layout, visible=True)],
+    [Column(top_bar_layout, visible=False)],
 ]
 
 window = Window('login test', layout)
