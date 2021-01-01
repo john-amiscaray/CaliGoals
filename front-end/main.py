@@ -20,18 +20,18 @@ sg.theme("LightBrown3")
 # layout for the login page by Johan yeye kewl ;3
 
 # ---Login Column---#
-bottom_right = Column([
+bottom_right_column = Column([
     [Text("Username",size=(10,3))],
-    [InputText(key="-USERNAME-",size=(45,10))],
+    [InputText(key="-USERNAME-",size=(37,5))],
     [Text("Password", size=(10,3))],
-    [InputText(key="-PASSWORD-", size=(45,5))],
+    [InputText(key="-PASSWORD-", size=(37,5))],
 ])
 
 #---Login PAGE---#
 
 login_page_layout = [
-    [Image(r'cat.png')],
-    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right],
+    [Image(r'half_cat.png')],
+    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right_column],
 ]
 
 # layout for the info bar at top
@@ -69,10 +69,9 @@ my_profile_layout = [
 
 # where we put all the page layouts together as columns
 layout = [
-
-    [Column(login_page_layout, visible=True, key='-LOGIN-')],
-    [Column(top_bar_layout, visible=False, key='-TOP_BAR-')],
-    [Column(my_profile_layout, visible=False, key='-MY_PROFILE-')],
+    [Column(login_page_layout, visible=False, key='-LOGIN-')],
+    [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
+    [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
 ]
 
 window = Window('login test', layout)
