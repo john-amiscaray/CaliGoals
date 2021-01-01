@@ -18,13 +18,17 @@ sg.theme("LightBrown3")
 #----- sublayouts -----#
 
 # layout for the login page by Johan yeye kewl ;3
+layoutthing = [
+    [Text(" "*50),Button("Enter")]
 
+]
 # ---Login Column---#
 bottom_right_column = Column([
-    [Text("Username",size=(10,3))],
+    [Text("Username",size=(7,3))],
     [InputText(key="-USERNAME-",size=(37,5))],
-    [Text("Password", size=(10,3))],
+    [Text("Password", size=(7,3))],
     [InputText(key="-PASSWORD-", size=(37,5))],
+    [Column(layoutthing)]
 ])
 
 #---Login PAGE---#
