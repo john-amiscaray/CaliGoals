@@ -37,6 +37,7 @@ public class User {
 
     public User(UserDto userDto, BCryptPasswordEncoder encoder){
 
+        userId = userDto.getUserId();
         username = userDto.getUsername();
         password = encoder.encode(userDto.getPassword());
         growthAmount = 0L;

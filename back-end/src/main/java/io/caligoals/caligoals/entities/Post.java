@@ -1,5 +1,7 @@
 package io.caligoals.caligoals.entities;
 
+import io.caligoals.caligoals.dtos.PostDto;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +21,18 @@ public class Post {
 
     @Lob
     private byte[] image;
+
+    public Post(){
+
+
+    }
+
+    public Post(PostDto dto){
+
+        postId = dto.getPostId();
+        caption = dto.getCaption();
+
+    }
 
     public Long getPostId() {
         return postId;
