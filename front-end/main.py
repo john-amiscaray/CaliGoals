@@ -10,6 +10,8 @@ format:
 - event
 - window.close()
 '''
+sg.theme("LightBrown3")
+
 
 #----- functions -----#
 
@@ -19,17 +21,17 @@ format:
 
 # ---Login Column---#
 bottom_right = Column([
-    [Text("Username")],
-    [Input(key="-USERNAME-")],
-    [Text("Password")],
-    [Input(key=("-PASSWORD-"))]
+    [Text("Username",size=(10,3))],
+    [InputText(key="-USERNAME-",size=(45,10))],
+    [Text("Password", size=(10,3))],
+    [InputText(key="-PASSWORD-", size=(45,5))],
 ])
 
 #---Login PAGE---#
 
 login_page_layout = [
     [Image(r'cat.png')],
-    [Text('Track your progress, \nWith Cats!', size = (30,10)), bottom_right],
+    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right],
 ]
 
 # layout for the info bar at top
@@ -66,9 +68,9 @@ my_profile_layout = [
 # where we put all the page layouts together as columns
 layout = [
 
-    [Column(login_page_layout, visible=False, key='-LOGIN-')],
-    [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
-    [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
+    [Column(login_page_layout, visible=True, key='-LOGIN-')],
+    [Column(top_bar_layout, visible=False, key='-TOP_BAR-')],
+    [Column(my_profile_layout, visible=False, key='-MY_PROFILE-')],
 ]
 
 window = Window('login test', layout)
