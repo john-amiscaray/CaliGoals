@@ -18,20 +18,24 @@ sg.theme("LightBrown3")
 #----- sublayouts -----#
 
 # layout for the login page by Johan yeye kewl ;3
+layoutthing = [
+    [Text(" "*50),Button("Enter")]
 
+]
 # ---Login Column---#
-bottom_right = Column([
-    [Text("Username",size=(10,3))],
-    [InputText(key="-USERNAME-",size=(45,10))],
-    [Text("Password", size=(10,3))],
-    [InputText(key="-PASSWORD-", size=(45,5))],
+bottom_right_column = Column([
+    [Text("Username",size=(7,3))],
+    [InputText(key="-USERNAME-",size=(37,5))],
+    [Text("Password", size=(7,3))],
+    [InputText(key="-PASSWORD-", size=(37,5))],
+    [Column(layoutthing)]
 ])
 
 #---Login PAGE---#
 
 login_page_layout = [
-    [Image(r'cat.png')],
-    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right],
+    [Image(r'half_cat.png')],
+    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right_column],
 ]
 
 # layout for the info bar at top
