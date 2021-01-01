@@ -56,4 +56,20 @@ public class UserController {
 
     }
 
+    @GetMapping("/user/{userId}/growth")
+    public ResponseEntity<Response> getGrowthAmount(@PathVariable("userId") Long userId){
+
+        Long growth = userService.getGrowthAmount(userId);
+        return new ResponseEntity<>(new Response(growth), HttpStatus.OK);
+
+    }
+
+    @PutMapping("/user/{userId}/addGrowth/{growthAmount}")
+    public ResponseEntity<Response> addGrowth(@PathVariable("userId") Long userId, @PathVariable("growthAmount") Long growthAmount){
+
+        userService.addToGrowthAmount(growthAmount, userId);
+        return new ResponseEntity<>(new Response("Successfully grown cat"), HttpStatus.OK);
+
+    }
+
 }

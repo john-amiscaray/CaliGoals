@@ -96,5 +96,20 @@ public class UserService {
     }
 
 
+    public void addToGrowthAmount(Long time, Long userId){
+
+        User user = getUser(userId);
+        user.setGrowthAmount(user.getGrowthAmount() + time);
+        updateUser(user);
+
+    }
+
+    public Long getGrowthAmount(Long userId){
+
+        User user = getUser(userId);
+        return user.getGrowthAmount();
+
+    }
+
 
 }
