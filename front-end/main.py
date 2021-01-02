@@ -14,14 +14,21 @@ format:
 '''
 sg.theme("LightBrown3")
 
+#----- values -----#
+list_goals = []
+list_goal_titles = []
+list_friends = []
+current_friend = {
+            "userId": 0,
+            "username": "default",
+            "password": "", # set blank for obvious reasons
+            "growthAmount": 0,
+            "profilePicture": None}
 
 #----- functions -----#
 
 def time_as_int():
     return int(round(time.time() * 100))
-
-list_goals = []
-list_goal_titles = []
 
 def fill_goals(userId):
     goals = back.getUsersGoals(userId)
@@ -29,6 +36,10 @@ def fill_goals(userId):
     for g in goals:
         list_goals.append([g['title'], g['description']])
         list_goal_titles.append(g['title'])
+
+def fill_friends(userId):
+    list_friends = back.getUserFriends(userId)
+
 
 #----- sublayouts -----#
 
@@ -97,7 +108,7 @@ my_profile_layout = [
 
 # layout for the feed
 feed_layout = [
-    [Text('FRIEND PROFILE')],
+    [Text(f'{current_friend["username"]}')],
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
 ]
 
@@ -143,8 +154,9 @@ window = Window('login test', layout)
 # current_time, paused_time, paused = 0, 0, False
 
 f_window_active = False
+click_friend = False
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=100)
 
     if event == sg.WIN_CLOSED:
         break
@@ -164,6 +176,7 @@ while True:
             continue
 
         fill_goals(user_id)
+        list_friends = back.getUserFriends(user_id)
         window['-GOALS_LIST-'].update(list_goal_titles)
 
         window['-LOGIN-'].update(visible=False)
@@ -189,12 +202,27 @@ while True:
     # while friends list page is active
     elif f_window_active:
         ev2, vals2 = f_window.read(timeout=100)
+
+        # update list of friends
+        f_window['-FRIENDS_LIST-'].update([f['username'] for f in list_friends])
+
         if ev2 == sg.WIN_CLOSED:
             f_window_active = False
             f_window.close()
 
+        # if they click on friends list, set current friend to friend clicked.
         elif ev2 == '-FRIENDS_LIST-':
-            pass
+            for f in list_friends:
+                if f['username'] == vals2['-FRIENDS_LIST-'][0]:
+                    current_friend = f
+                    print(current_friend)
+
+                    # after choosing a friend, close window
+                    f_window_active = False
+                    f_window.close()
+                    click_friend = True
+
+
     #---- dear lord the timer stuff ----#
     # elif event == '-TIMER_BUTTON-':
     #     print("clicked on timer button")
@@ -248,6 +276,12 @@ while True:
     # if statements for other events
 
     # if user adds goal, prompt user input for goal info
+    # if the user clicked on a friend
+    elif click_friend:
+        click_friend = False
+        window['-MY_PROFILE-'].update(visible=False)
+        window['-FEED-'].update(visible=True)
+
     elif event == '-ADD_GOAL-':
 
         # popup returns None if cancelled then continues
@@ -285,6 +319,5 @@ while True:
         # print(values['-GOALS_LIST-'], 'Description:', desc)
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
-    print(event)
 
 window.close()
