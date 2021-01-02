@@ -83,5 +83,15 @@ public class GoalController {
 
     }
 
+    @PutMapping("/user/{userId}/goal/{title}/addTime/{time}")
+    public ResponseEntity<Response> addTimeToGoal(@PathVariable("userId") Long userId,
+                                                  @PathVariable("title") String title,
+                                                  @PathVariable("time") Long timesSpent){
+
+        goalService.addTimeToGoal(title, userId, timesSpent);
+        return new ResponseEntity<>(new Response("Successfully added time to goal"), HttpStatus.OK);
+
+    }
+
 
 }

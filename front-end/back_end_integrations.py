@@ -361,3 +361,14 @@ def addComment(user_id, post_id, content):
     checkRequestSuccessful(r)
     return True
 
+
+def addTimeToGoal(user_id, title, time):
+    """
+    :param user_id: id of the user who owns the goal
+    :param title: title of the goal
+    :param time: time spent on the goal
+    :return: True if successful else raises Exception
+    """
+    r = requests.put(f'{base_url}/user/{user_id}/goal/{title}/addTime/{time}', auth=auth)
+    checkRequestSuccessful(r)
+    return True

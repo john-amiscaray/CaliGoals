@@ -95,5 +95,15 @@ public class GoalService {
 
     }
 
+    public void addTimeToGoal(String title, Long userId, Long timeSpent){
+
+        User user = userService.getUser(userId);
+        GoalId id = new GoalId(user, title );
+        Goal goal = getGoal(id);
+        goal.setTimeSpent(goal.getTimeSpent() + timeSpent);
+        editGoal(goal);
+
+    }
+
 
 }

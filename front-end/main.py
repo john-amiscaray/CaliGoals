@@ -211,7 +211,6 @@ while True:
         except:
             sg.popup_error('wrong credentials')
             continue
-
         fill_goals(user_id)
         list_friends = back.getUserFriends(user_id)
         window['-GOALS_LIST-'].update(list_goal_titles)
@@ -228,6 +227,7 @@ while True:
             back.addGrowth(user_id, time_spent)
             refresh_growth(user_id)
             window['-YOUR_CAT-'].update(image_filename=getCatLevel())
+            back.addTimeToGoal(user_id, values['-GOALS_LIST-'][0], time_spent)
     # if the user wants to view friends list
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
@@ -260,58 +260,6 @@ while True:
                     f_window_active = False
                     f_window.close()
                     click_friend = True
-
-
-    # ---- dear lord the timer stuff ----#
-    elif event == '-TIMER_BUTTON-':
-        print("clicked on timer button")
-        goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct') # POPUP FOR MINUTES
-        if goal is None: break
-
-        while not str(goal.isdigit()): # MAKE SURE IT'S A NUMBER
-            sg.popup_error('bruh enter a number')
-            goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
-            if event == 'cancel':
-                pass
-
-
-
-        start_time = time_as_int()
-        goal = int(goal) * 6000
-
-        current_time, paused_time, paused = 0, 0, False
-
-        while True:
-            if not paused:
-                event, values = timer_window.read(timeout=10)
-                current_time = time_as_int() - start_time
-                if current_time >= goal:
-                    paused = True
-            else:
-                event, values = timer_window.read()
-
-            # --------- Do Button Operations --------
-            if event in (sg.WIN_CLOSED, '-TIMEREXIT-'):  # ALWAYS give a way out of program
-                break
-            if event == '-RESET-':
-                paused_time = start_time = time_as_int()
-                current_time = 0
-            elif event == '-RUN-PAUSE-':
-                paused = not paused  # flipping the paused
-                if paused:
-                    paused_time = time_as_int()
-                else:
-                    start_time = start_time + time_as_int() - paused_time
-                # Change button's text
-                timer_window['-RUN-PAUSE-'].update('Run' if paused else 'Pause')
-            # --------- Display timer in window --------
-            timer_window['text'].update('{:02d}:{:02d}.{:02d}'.format((current_time // 100) // 60,
-                                                                      (current_time // 100) % 60,
-                                                                      current_time % 100))
-
-
-    if event == '-TIMEREXIT-':
-        timer_window.close()
 
     # if statements for other events
 
@@ -348,7 +296,7 @@ while True:
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
-
+        # I WAS ALSO HERE
         desc = None
 
         # search for goal
@@ -360,6 +308,7 @@ while True:
         if desc is None: continue
 
         # print(values['-GOALS_LIST-'], 'Description:', desc)
+
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
 
