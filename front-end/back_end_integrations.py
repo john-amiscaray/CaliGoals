@@ -1,7 +1,7 @@
 import requests
 
 base_url = 'http://localhost:8080'
-auth = ('Bobbert', 'pass')
+auth = ('user', 'pass')
 
 
 class RequestException(Exception):
@@ -10,7 +10,7 @@ class RequestException(Exception):
 
 def checkRequestSuccessful(r):
     if r.status_code != 200:
-        raise RequestException(f'Something Went wrong when handling this request {r.content}')
+        raise RequestException(f'Something went wrong when handling this request {r.content}')
 
 
 def login(login_details):
@@ -21,11 +21,13 @@ def login(login_details):
     IMPORTANT:
     --- CALL THIS METHOD BEFORE YOU DO ANYTHING, IT SETS A GLOBAL VARIABLE NEEDED FOR THE OTHER FUNCTIONS TO WORK ---
     """
+
     global auth
     r = requests.post(f"{base_url}/auth/login", auth=login_details)
     checkRequestSuccessful(r)
     auth = login_details
     return r.json()['message']
+
 
 
 def signUp(auth):
@@ -159,7 +161,7 @@ def getGoal(user_id, title):
     return r.json()['message']
 
 
-def addGoal(user_id, title, start, end, time_spent, description, is_complete):
+def addGoal(user_id, title, start, end, description, is_complete = False, time_spent = 0):
     """
     :param user_id: id of the user who will own the goal
     :param title: title of the goal
@@ -182,7 +184,6 @@ def addGoal(user_id, title, start, end, time_spent, description, is_complete):
         "timeSpent": time_spent,
         "description": description,
         "isComplete": is_complete
-
 
     }
     r = requests.post(f'{base_url}/user/{user_id}/addGoal', json=json, auth=auth)
@@ -211,7 +212,13 @@ def getUsersGoals(user_id):
     checkRequestSuccessful(r)
     return r.json()['message']
 
+# signUp(('user', 'pass'))
+# signUp(('stalin', 'hi'))
+# signUp(('wee', 'woo'))
+# addFriend(1, 6)
+# addFriend(1, 7)
 
 # print(getUsersGoals(2))
 # print(addGoal(1, 'Learn Djano', 1609459200, 1624233600, 0, "It's a python web framework", False))
 # print(getGoal(1, 'Learn Djano'))
+

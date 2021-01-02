@@ -29,7 +29,7 @@ public class User {
     @Lob
     private byte[] profilePicture;
 
-    @OneToMany
+    @OneToMany(mappedBy = "creator")
     private List<Post> posts;
 
     @OneToMany(mappedBy = "goalId.user")

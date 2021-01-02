@@ -7,6 +7,7 @@ public class PostDto {
     private Long postId;
     private String caption;
     private byte[] image;
+    private Long userId;
 
     public PostDto(){
 
@@ -19,6 +20,7 @@ public class PostDto {
         postId = post.getPostId();
         caption = post.getCaption();
         image = post.getImage();
+        userId = post.getCreator().getUserId();
 
     }
 
@@ -44,6 +46,14 @@ public class PostDto {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override

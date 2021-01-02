@@ -1,6 +1,7 @@
 package io.caligoals.caligoals.entities;
 
 import io.caligoals.caligoals.dtos.PostDto;
+import io.caligoals.caligoals.services.UserService;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -22,15 +23,19 @@ public class Post {
     @Lob
     private byte[] image;
 
+    @ManyToOne
+    private User creator;
+
     public Post(){
 
 
     }
 
-    public Post(PostDto dto){
+    public Post(PostDto dto, UserService userService){
 
         postId = dto.getPostId();
         caption = dto.getCaption();
+        creator = userService.getUser(dto.getUserId());
 
     }
 
@@ -64,6 +69,14 @@ public class Post {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     @Override
