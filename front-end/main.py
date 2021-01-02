@@ -101,6 +101,12 @@ feed_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
 ]
 
+# layout for friends frame
+friends_frame_layout = [
+    [Listbox(values=[3, 2, 1], enable_events=True, size=(20,20), key='-FRIENDS_LIST-')]
+]
+
+
 # # layout for the timer popup
 # layout = [[sg.Text('')],
 #           [sg.Text('', size=(8, 2), font=('Helvetica', 20),
@@ -136,6 +142,7 @@ window = Window('login test', layout)
 # start_time = time_as_int()
 # current_time, paused_time, paused = 0, 0, False
 
+f_window_active = False
 while True:
     event, values = window.read()
 
@@ -145,7 +152,7 @@ while True:
     elif event == 'Friends':
         print("clicked on friends")
 
-    # if statements for switching windows
+    # if statements for switching pages
     elif event == 'Enter':
         user = values['-USERNAME-']
         password = values['-PASSWORD-']
@@ -162,14 +169,32 @@ while True:
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
-    elif event == '-FRIENDS-':
-        window['-MY_PROFILE-'].update(visible=False)
-        window['-FEED-'].update(visible=True)
+    # elif event == '-FRIENDS-':
+    #     window['-MY_PROFILE-'].update(visible=False)
+    #     window['-FEED-'].update(visible=True)
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
 
+    # if the user wants to view friends list
+    elif not f_window_active and event == '-FRIENDS-':
+        f_window_active = True
 
+        friends_list_layout = [
+            [Frame('Your Friends', friends_frame_layout)],
+            [Button('Add Friend', key='-ADD_FRIEND-')]
+        ]
+        f_window = Window('Friends', friends_list_layout)
+
+    # while friends list page is active
+    elif f_window_active:
+        ev2, vals2 = f_window.read(timeout=100)
+        if ev2 == sg.WIN_CLOSED:
+            f_window_active = False
+            f_window.close()
+
+        elif ev2 == '-FRIENDS_LIST-':
+            pass
     #---- dear lord the timer stuff ----#
     # elif event == '-TIMER_BUTTON-':
     #     print("clicked on timer button")
