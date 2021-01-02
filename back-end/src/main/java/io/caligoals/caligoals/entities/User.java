@@ -37,6 +37,7 @@ public class User {
 
     public User(UserDto userDto, BCryptPasswordEncoder encoder){
 
+        userId = userDto.getUserId();
         username = userDto.getUsername();
         password = encoder.encode(userDto.getPassword());
         growthAmount = 0L;
@@ -114,17 +115,17 @@ public class User {
         this.goals = goals;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", friends=" + friends +
-                ", growthAmount=" + growthAmount +
-                ", profilePicture=" + Arrays.toString(profilePicture) +
-                ", posts=" + posts +
-                ", goals=" + goals +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "userId=" + userId +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", friends=" + friends +
+//                ", growthAmount=" + growthAmount +
+//                ", profilePicture=" + Arrays.toString(profilePicture) +
+//                ", posts=" + posts +
+//                ", goals=" + goals +
+//                '}';
+//    }
 }
