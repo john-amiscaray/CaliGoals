@@ -26,7 +26,7 @@ public class UserController {
 
         User user = userService.getUser(userId);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                .contentType(MediaType.parseMediaType(MediaType.IMAGE_PNG_VALUE))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.getUsername() + "\"")
                 .body(user.getProfilePicture());
 
@@ -43,6 +43,9 @@ public class UserController {
     @GetMapping("/user/{userId}/add-friend/{friendId}")
     public ResponseEntity<Response> addFriend(@PathVariable("userId") Long userId, @PathVariable("friendId") Long friendId){
 
+        if(userId.equals(friendId)) {
+            return ResponseEntity.badRequest().build();
+        }
         userService.addAsFriend(friendId, userId);
         return new ResponseEntity<>(new Response("Successfully added friend"), HttpStatus.OK);
 
