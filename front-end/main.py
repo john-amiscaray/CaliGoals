@@ -19,6 +19,9 @@ sg.theme("LightBrown3")
 def time_as_int():
     return int(round(time.time() * 100))
 
+list_goals = []
+list_goal_titles = []
+
 #----- sublayouts -----#
 
 # layout for the login page by Johan yeye kewl ;3
@@ -46,7 +49,7 @@ login_page_layout = [
 top_bar_layout = [
     [Button('Friends', key='-FRIENDS-'),
      Button('USERNAME_PLACEHOLDER', key='-HOME-'),
-     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2),] # top row of the profile
+     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)] # top row of the profile
 ]
 
 # layout for the badges
@@ -65,7 +68,7 @@ friend_badges_layout = [
 goals_layout = [
     [Text("GOALS")],
     # listing the goals
-    [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(button_color =(sg.theme_background_color(),sg.theme_background_color()), border_width = 0, image_filename = 'alarm_icon.png',key='-TIMER_BUTTON-' )],
+    [Listbox(values=[], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(button_color =(sg.theme_background_color(),sg.theme_background_color()), border_width = 0, image_filename = 'alarm_icon.png',key='-TIMER_BUTTON-' )],
     # add goal button
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
 ]
@@ -130,8 +133,11 @@ while True:
 
     if event == sg.WIN_CLOSED:
         break
+
     elif event == 'Friends':
         print("clicked on friends")
+
+    # if statements for switching windows
     elif event == 'Enter':
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
@@ -142,6 +148,7 @@ while True:
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
+
 
     #---- dear lord the timer stuff ----#
     # elif event == '-TIMER_BUTTON-':
@@ -191,6 +198,41 @@ while True:
     #
     # if event == '-TIMEREXIT-':
     #     timer_window.close()
+
+
+    # if statements for other events
+
+    # if user adds goal, prompt user input for goal info
+    elif event == '-ADD_GOAL-':
+        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
+        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
+        new_goal_time = str(sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
+
+        while not new_goal_time.isdigit():
+            sg.popup_error('Please enter a valid number.')
+            new_goal_time = str(sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
+
+        list_goals.append([new_goal_title, new_goal_desc, new_goal_time])
+        list_goal_titles.append(new_goal_title)
+
+        window['-GOALS_LIST-'].update(list_goal_titles)
+
+    # user clicks on goal, bring up goal description
+    elif event == '-GOALS_LIST-':
+
+        desc = None
+
+        for i in list_goals:
+            if i[0] == values['-GOALS_LIST-'][0]:
+                desc = i[1]
+
+        # if there is no description/did not click on valid goal
+        if desc is None: continue
+
+        # print(values['-GOALS_LIST-'], 'Description:', desc)
+        sg.popup_ok(values['-GOALS_LIST-'][0], desc)
+
+    print(event)
 
 
 
