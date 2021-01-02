@@ -2,6 +2,7 @@
 import PySimpleGUI as sg
 import time
 from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, Check, Button, B, Btn, ButtonMenu, Canvas, Column, Col, Combo, Frame, Graph, Image, InputText, Input, In, Listbox, LBox, Menu, Multiline, ML, MLine, OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, TreeData,  VerticalSeparator, Window, Sizer
+import back_end_integrations as back
 
 '''
 format:
@@ -21,6 +22,13 @@ def time_as_int():
 
 list_goals = []
 list_goal_titles = []
+
+def fill_goals(userId):
+    goals = back.getUsersGoals(userId)
+
+    for g in goals:
+        list_goals.append([g['title'], g['description']])
+        list_goal_titles.append(g['title'])
 
 #----- sublayouts -----#
 
@@ -139,6 +147,18 @@ while True:
 
     # if statements for switching windows
     elif event == 'Enter':
+        user = values['-USERNAME-']
+        password = values['-PASSWORD-']
+
+        try:
+            user_id = back.login((user, password))
+        except:
+            sg.popup_error('wrong credentials')
+            continue
+
+        fill_goals(user_id)
+        window['-GOALS_LIST-'].update(list_goal_titles)
+
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
@@ -217,11 +237,14 @@ while True:
 
         window['-GOALS_LIST-'].update(list_goal_titles)
 
+        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc)
+
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
 
         desc = None
 
+        # search for goal
         for i in list_goals:
             if i[0] == values['-GOALS_LIST-'][0]:
                 desc = i[1]
@@ -233,7 +256,5 @@ while True:
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
     print(event)
-
-
 
 window.close()
