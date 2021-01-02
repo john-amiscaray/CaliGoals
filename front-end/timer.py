@@ -38,12 +38,14 @@ def openTimer():
     current_time, paused_time, paused = 0, 0, False
 
     pop_up = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
+    if pop_up is None: return
     goal = str(pop_up)
-    while not goal.isdigit():
+    while not str(goal).isdigit():
         sg.popup_error('bruh enter a number')
-        goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct'))
+        goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
+
         if goal is None:
-            break
+            return
 
     start_time = time_as_int()
     goal = int(goal) * 6000
