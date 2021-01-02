@@ -215,6 +215,8 @@ while True:
 
         try:
             user_id = back.login((user, password))
+            #I WAS HERE
+            window['-HOME-'].update(text=user)
         except:
             sg.popup_error('wrong credentials')
             continue
@@ -304,7 +306,6 @@ while True:
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
-        # I WAS ALSO HERE
         desc = None
 
         # search for goal
