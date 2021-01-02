@@ -8,6 +8,7 @@ from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, C
     TreeData, VerticalSeparator, Window, Sizer
 import back_end_integrations as back
 from copy import deepcopy
+import random
 '''
 format:
 - functions
@@ -19,6 +20,15 @@ format:
 sg.theme("LightBrown3")
 
 #----- values -----#
+cat_msg = [
+    'Meow!',
+    'You got this!',
+    'rawr',
+    'You can do it!',
+    'Reach those goalss',
+    'insert words of encouragement here'
+]
+
 user = ''
 list_goals = []
 list_goal_titles = []
@@ -338,7 +348,7 @@ while True:
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
     elif event == '-YOUR_CAT-':
-        sg.popup_quick_message('Meow!', auto_close_duration=100, font=('Courier', 30, 'bold'), background_color='#BEF2F8')
+        sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
 
 
 window.close()
