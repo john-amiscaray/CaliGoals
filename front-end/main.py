@@ -7,7 +7,7 @@ from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, C
     OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, \
     TreeData, VerticalSeparator, Window, Sizer
 import back_end_integrations as back
-
+from copy import deepcopy
 '''
 format:
 - functions
@@ -259,7 +259,7 @@ while True:
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
         friends_list_layout = [
-            [Frame('Your Friends', friends_frame_layout, font=('Courier', 12))],
+            [Frame('Your Friends', deepcopy(friends_frame_layout), font=('Courier', 12))],
             [Button('Add Friend', key='-ADD_FRIEND-', font=('Courier', 10))]
         ]
         f_window = Window('Friends', friends_list_layout)
