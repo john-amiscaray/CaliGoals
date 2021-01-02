@@ -244,9 +244,11 @@ while True:
         if goal is None: break
 
         while not str(goal.isdigit()): # MAKE SURE IT'S A NUMBER
-            # if goal is None: break
             sg.popup_error('bruh enter a number')
             goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
+            if event == 'cancel':
+                pass
+
 
 
         start_time = time_as_int()
@@ -283,10 +285,6 @@ while True:
                                                                       (current_time // 100) % 60,
                                                                       current_time % 100))
 
-
-
-
-
     if event == '-TIMEREXIT-':
         timer_window.close()
 
@@ -310,7 +308,6 @@ while True:
         if new_goal_time is None: continue
 
         new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
-
 
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
