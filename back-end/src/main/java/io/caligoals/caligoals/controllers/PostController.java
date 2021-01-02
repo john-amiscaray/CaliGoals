@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @RestController
 public class PostController {
@@ -64,22 +65,18 @@ public class PostController {
     public ResponseEntity<Response> getAllPosts(@PathVariable("userId") Long userId){
 
         User user = userService.getUser(userId);
-        return new ResponseEntity<>(new Response(user.getPosts()), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(user.getPosts().stream()
+                .map(PostDto::new)
+                .collect(Collectors.toList())), HttpStatus.OK);
 
     }
 
-    @GetMapping("/user/{userId}/post/{postId}")
-    public ResponseEntity<Response> getPost(@PathVariable("userId") Long userId, @PathVariable("postId") Long postId){
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<Response> getPost(@PathVariable("postId") Long postId){
 
-        User user = userService.getUser(userId);
         Post post = postService.getPost(postId);
-        if(user.getPosts().contains(post)) {
-            return new ResponseEntity<>(new Response(new PostDto(post)), HttpStatus.OK);
-        }else{
+        return new ResponseEntity<>(new Response(new PostDto(post)), HttpStatus.OK);
 
-            return new ResponseEntity<>(new Response("Cannot find that post from that user"), HttpStatus.NOT_FOUND);
-
-        }
     }
 
     @GetMapping("/user/{userId}/feed")
