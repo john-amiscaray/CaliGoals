@@ -73,11 +73,17 @@ login_page_layout = [
 ]
 
 # layout for the info bar at top
-top_bar_layout = [
+top_bar_frame_layout = [
+    [Text('CaliGoals!', justification='centre', font=('Courier', 12), background_color=sg.theme_button_color()[0])],
     [Button('Friends', key='-FRIENDS-'),
-     Button('USERNAME_PLACEHOLDER', key='-HOME-'), Text(' '*40),
-     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+     Button('USERNAME_PLACEHOLDER', key='-HOME-'),
+     Text(' '*40, text_color=sg.theme_button_color()[0], background_color=sg.theme_button_color()[0]),
+     Button(button_color=(sg.theme_button_color()[0], sg.theme_button_color()[0]),
             image_filename=r'default_pfp.png', border_width=0, image_subsample=8)]  # top row of the profile
+]
+
+top_bar_layout = [
+    [Frame('', top_bar_frame_layout, background_color=sg.theme_button_color()[0], border_width=5)]
 ]
 
 # layout for the badges
@@ -98,13 +104,13 @@ friend_badges_layout = [
 
 # layout for the goals
 goals_layout = [
-    [Text("GOALS")],
+    [Text("GOALS", font=('Courier', 12))],
     # listing the goals
-    [Listbox(values=[], enable_events=True, size=(40, 20), key='-GOALS_LIST-'),
+    [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-'),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
             image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
     # add goal button
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal')],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal', font=('Courier', 12))],
 ]
 
 # layout for the goals
@@ -208,8 +214,8 @@ while True:
         f_window_active = True
 
         friends_list_layout = [
-            [Frame('Your Friends', friends_frame_layout)],
-            [Button('Add Friend', key='-ADD_FRIEND-')]
+            [Frame('Your Friends', friends_frame_layout, font=('Courier', 12))],
+            [Button('Add Friend', key='-ADD_FRIEND-', font=('Courier', 10))]
         ]
         f_window = Window('Friends', friends_list_layout)
 
