@@ -338,7 +338,7 @@ while True:
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
     elif event == '-YOUR_CAT-':
-        sg.popup_animated(image_source='')
+        sg.popup_quick_message('Meow!', auto_close_duration=100, font=('Courier', 30, 'bold'), background_color='#BEF2F8')
 
 
 window.close()
