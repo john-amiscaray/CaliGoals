@@ -73,9 +73,9 @@ my_profile_layout = [
 
 # where we put all the page layouts together as columns
 layout = [
-    [Column(login_page_layout, visible=False, key='-LOGIN-')],
-    [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
-    [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
+    [Column(login_page_layout, visible=True, key='-LOGIN-')],
+    [Column(top_bar_layout, visible=False, key='-TOP_BAR-')],
+    [Column(my_profile_layout, visible=False, key='-MY_PROFILE-')],
 ]
 
 window = Window('login test', layout)
@@ -89,6 +89,5 @@ while True:
         break
     elif event == 'Friends':
         print("clicked on friends")
-
 
 window.close()
