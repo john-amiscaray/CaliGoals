@@ -1,7 +1,10 @@
 # main.py
 import PySimpleGUI as sg
 import time
-from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, Check, Button, B, Btn, ButtonMenu, Canvas, Column, Col, Combo, Frame, Graph, Image, InputText, Input, In, Listbox, LBox, Menu, Multiline, ML, MLine, OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, TreeData,  VerticalSeparator, Window, Sizer
+from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, Check, Button, B, Btn, ButtonMenu, \
+    Canvas, Column, Col, Combo, Frame, Graph, Image, InputText, Input, In, Listbox, LBox, Menu, Multiline, ML, MLine, \
+    OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, \
+    TreeData, VerticalSeparator, Window, Sizer
 import back_end_integrations as back
 
 '''
@@ -25,10 +28,13 @@ current_friend = {
             "growthAmount": 0,
             "profilePicture": None}
 
-#----- functions -----#
+# ----- functions -----#
 
 def time_as_int():
     return int(round(time.time() * 100))
+
+list_goals = []
+list_goal_titles = []
 
 def fill_goals(userId):
     goals = back.getUsersGoals(userId)
@@ -41,53 +47,61 @@ def fill_friends(userId):
     list_friends = back.getUserFriends(userId)
 
 
-#----- sublayouts -----#
+
+# ----- sublayouts -----#
 
 # layout for the login page by Johan yeye kewl ;3
 layoutthing = [
-    [Text(" "*50),Button("Enter")]
+    [Text(" " * 50), Button("Enter")]
 
 ]
 # ---Login Column---#
 bottom_right_column = Column([
-    [Text("Username",size=(7,3))],
-    [InputText(key="-USERNAME-",size=(37,5))],
-    [Text("Password", size=(7,3))],
-    [InputText(key="-PASSWORD-", size=(37,5), password_char='*')],
+    [Text("Username", size=(7, 3))],
+    [InputText(key="-USERNAME-", size=(37, 5))],
+    [Text("Password", size=(7, 3))],
+    [InputText(key="-PASSWORD-", size=(37, 5), password_char='*')],
     [Column(layoutthing)]
 ])
 
-#---Login PAGE---#
+# ---Login PAGE---#
 
 login_page_layout = [
     [Image(r'half_cat.png')],
-    [Text('Track your progress, \nWith Cats!', size = (30,10), font='Courier'), bottom_right_column],
+    [Text('Track your progress, \nWith Cats!', size=(30, 10), font='Courier'), bottom_right_column],
 ]
 
 # layout for the info bar at top
 top_bar_layout = [
     [Button('Friends', key='-FRIENDS-'),
      Button('USERNAME_PLACEHOLDER', key='-HOME-'),
-     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)] # top row of the profile
+     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)]  # top row of the profile
 ]
 
 # layout for the badges
 badges_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
 ]
 
 # layout for friend badges
 friend_badges_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
 ]
 
 # layout for the goals
 goals_layout = [
     [Text("GOALS")],
     # listing the goals
-    [Listbox(values=[], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(button_color =(sg.theme_background_color(),sg.theme_background_color()), border_width = 0, image_filename = 'alarm_icon.png',key='-TIMER_BUTTON-' )],
+    [Listbox(values=[], enable_events=True, size=(40, 20), key='-GOALS_LIST-'),
+     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
+            image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
     # add goal button
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal')],
 ]
@@ -101,7 +115,8 @@ friend_goals_layout = [
 
 # layout for your profile
 my_profile_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2),
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png',
+            border_width=0, image_subsample=2),
      Column(badges_layout),
      Column(goals_layout)],
 ]
@@ -135,20 +150,19 @@ friends_frame_layout = [
 #                    element_padding=(0, 0))
 
 
-
-#----- layout -----#
+# ----- layout -----#
 
 # where we put all the page layouts together as a bunch of rows within one column
 layout = [
     [Column(login_page_layout, visible=True, key='-LOGIN-'),
-    Column(top_bar_layout, visible=False, key='-TOP_BAR-'),
-    Column(my_profile_layout, visible=False, key='-MY_PROFILE-'),
-    Column(feed_layout, visible=False, key='-FEED-')]
+     Column(top_bar_layout, visible=False, key='-TOP_BAR-'),
+     Column(my_profile_layout, visible=False, key='-MY_PROFILE-'),
+     Column(feed_layout, visible=False, key='-FEED-')]
 ]
 
 window = Window('login test', layout)
 
-#----- events -----#
+# ----- events -----#
 #
 # start_time = time_as_int()
 # current_time, paused_time, paused = 0, 0, False
@@ -223,7 +237,7 @@ while True:
                     click_friend = True
 
 
-    #---- dear lord the timer stuff ----#
+    # ---- dear lord the timer stuff ----#
     # elif event == '-TIMER_BUTTON-':
     #     print("clicked on timer button")
     #     goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')) # POPUP FOR MINUTES
@@ -272,7 +286,6 @@ while True:
     # if event == '-TIMEREXIT-':
     #     timer_window.close()
 
-
     # if statements for other events
 
     # if user adds goal, prompt user input for goal info
@@ -292,9 +305,13 @@ while True:
         new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
         if new_goal_time is None: continue
 
+        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+
+
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
-            new_goal_time = str(sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
+            new_goal_time = str(
+                sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
 
         list_goals.append([new_goal_title, new_goal_desc, new_goal_time])
         list_goal_titles.append(new_goal_title)

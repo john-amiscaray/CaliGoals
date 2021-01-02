@@ -27,6 +27,7 @@ public class PostController {
     @PostMapping("/user/{userId}/post")
     public ResponseEntity<Response> addPost(@PathVariable("userId") Long userId, @RequestBody PostDto dto){
 
+        dto.setUserId(userId);
         Post post = postService.addPost(dto);
         userService.addPost(post, userId);
         return new ResponseEntity<>(new Response(post.getPostId()), HttpStatus.OK);
@@ -49,7 +50,7 @@ public class PostController {
         User user = userService.getUser(userId);
         if(user.getPosts().contains(post)) {
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_PNG_VALUE))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Post " + post.getPostId() + "\"")
                     .body(post.getImage());
         }else{
@@ -79,6 +80,13 @@ public class PostController {
             return new ResponseEntity<>(new Response("Cannot find that post from that user"), HttpStatus.NOT_FOUND);
 
         }
+    }
+
+    @GetMapping("/user/{userId}/feed")
+    public ResponseEntity<Response> getPostsOfUsersFriends(@PathVariable("userId") Long userId){
+
+        return new ResponseEntity<>(new Response(postService.getFeed(userId)), HttpStatus.OK);
+
     }
 
 }

@@ -1,5 +1,9 @@
 package io.caligoals.caligoals.entities;
 
+import io.caligoals.caligoals.dtos.CommentDto;
+import io.caligoals.caligoals.services.PostService;
+import io.caligoals.caligoals.services.UserService;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +21,21 @@ public class Comment {
 
     @Column(name="content", nullable = false)
     private String content;
+
+
+    public Comment(){
+
+
+
+    }
+
+    public Comment(CommentDto dto, PostService postService, UserService userService){
+
+        user = userService.getUser(dto.getUserId());
+        postReferringTo = postService.getPost(dto.getPostId());
+        content = dto.getContent();
+
+    }
 
     public Long getCommentId() {
         return commentId;
