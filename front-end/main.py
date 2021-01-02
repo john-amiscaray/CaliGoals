@@ -53,7 +53,6 @@ def fill_friends(userId):
 # layout for the login page by Johan yeye kewl ;3
 layoutthing = [
     [Text(" " * 50), Button("Enter")]
-
 ]
 # ---Login Column---#
 bottom_right_column = Column([
