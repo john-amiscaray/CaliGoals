@@ -1,5 +1,6 @@
 # main.py
 import PySimpleGUI as sg
+import time
 from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, Check, Button, B, Btn, ButtonMenu, Canvas, Column, Col, Combo, Frame, Graph, Image, InputText, Input, In, Listbox, LBox, Menu, Multiline, ML, MLine, OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, TreeData,  VerticalSeparator, Window, Sizer
 
 '''
@@ -15,6 +16,9 @@ sg.theme("LightBrown3")
 
 #----- functions -----#
 
+def time_as_int():
+    return int(round(time.time() * 100))
+
 #----- sublayouts -----#
 
 # layout for the login page by Johan yeye kewl ;3
@@ -27,7 +31,7 @@ bottom_right_column = Column([
     [Text("Username",size=(7,3))],
     [InputText(key="-USERNAME-",size=(37,5))],
     [Text("Password", size=(7,3))],
-    [InputText(key="-PASSWORD-", size=(37,5))],
+    [InputText(key="-PASSWORD-", size=(37,5), password_char='*')],
     [Column(layoutthing)]
 ])
 
@@ -86,6 +90,24 @@ feed_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
 ]
 
+# # layout for the timer popup
+# layout = [[sg.Text('')],
+#           [sg.Text('', size=(8, 2), font=('Helvetica', 20),
+#                 justification='center', key='text')],
+#           [sg.Button('Pause', key='-RUN-PAUSE-', button_color=('white', '#001480')),
+#            sg.Button('Reset', button_color=('white', '#007339'), key='-RESET-'),
+#            sg.Exit(button_color=('white', 'firebrick4'), key='-TIMEREXIT-')]]
+# 
+# #Separate window for le timer.
+# timer_window = sg.Window('Running Timer', layout,
+#                    no_titlebar=True,
+#                    auto_size_buttons=False,
+#                    keep_on_top=True,
+#                    grab_anywhere=True,
+#                    element_padding=(0, 0))
+
+
+
 #----- layout -----#
 
 # where we put all the page layouts together as a bunch of rows within one column
@@ -99,6 +121,9 @@ layout = [
 window = Window('login test', layout)
 
 #----- events -----#
+#
+# start_time = time_as_int()
+# current_time, paused_time, paused = 0, 0, False
 
 while True:
     event, values = window.read()
@@ -107,9 +132,6 @@ while True:
         break
     elif event == 'Friends':
         print("clicked on friends")
-
-    elif event == '-TIMER_BUTTON-':
-        print("clicked on timer button")
     elif event == 'Enter':
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
@@ -120,5 +142,56 @@ while True:
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
+
+    #---- dear lord the timer stuff ----#
+    # elif event == '-TIMER_BUTTON-':
+    #     print("clicked on timer button")
+    #     goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')) # POPUP FOR MINUTES
+    #     while not goal.isdigit(): # MAKE SURE IT'S A NUMBER
+    #         sg.popup_error('bruh enter a number')
+    #         goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct'))
+    #
+    #     start_time = time_as_int()
+    #     goal = int(goal) * 6000
+    #
+    #     current_time, paused_time, paused = 0, 0, False
+    #
+    #     while True:
+    #         print("while this is true")
+    #         if not paused:
+    #             event, values = timer_window.read(timeout=10)
+    #             current_time = time_as_int() - start_time
+    #             if current_time >= goal:
+    #                 paused = True
+    #         else:
+    #             event, values = timer_window.read()
+    #
+    #         # --------- Do Button Operations --------
+    #         if event in (sg.WIN_CLOSED, '-TIMEREXIT-'):  # ALWAYS give a way out of program
+    #             break
+    #         if event == '-RESET-':
+    #             paused_time = start_time = time_as_int()
+    #             current_time = 0
+    #         elif event == '-RUN-PAUSE-':
+    #             paused = not paused  # flipping the paused
+    #             if paused:
+    #                 paused_time = time_as_int()
+    #             else:
+    #                 start_time = start_time + time_as_int() - paused_time
+    #             # Change button's text
+    #             timer_window['-RUN-PAUSE-'].update('Run' if paused else 'Pause')
+    #         # --------- Display timer in window --------
+    #         timer_window['text'].update('{:02d}:{:02d}.{:02d}'.format((current_time // 100) // 60,
+    #                                                                   (current_time // 100) % 60,
+    #                                                                   current_time % 100))
+    #
+    #
+    #
+    #
+    #
+    # if event == '-TIMEREXIT-':
+    #     timer_window.close()
+
+
 
 window.close()
