@@ -133,21 +133,21 @@ friends_frame_layout = [
 ]
 
 
-# # layout for the timer popup
-# layout = [[sg.Text('')],
-#           [sg.Text('', size=(8, 2), font=('Helvetica', 20),
-#                 justification='center', key='text')],
-#           [sg.Button('Pause', key='-RUN-PAUSE-', button_color=('white', '#001480')),
-#            sg.Button('Reset', button_color=('white', '#007339'), key='-RESET-'),
-#            sg.Exit(button_color=('white', 'firebrick4'), key='-TIMEREXIT-')]]
-# 
-# #Separate window for le timer.
-# timer_window = sg.Window('Running Timer', layout,
-#                    no_titlebar=True,
-#                    auto_size_buttons=False,
-#                    keep_on_top=True,
-#                    grab_anywhere=True,
-#                    element_padding=(0, 0))
+# layout for the timer popup
+layout = [[sg.Text('')],
+          [sg.Text('', size=(8, 2), font=('Helvetica', 20),
+                justification='center', key='text')],
+          [sg.Button('Pause', key='-RUN-PAUSE-', button_color=('white', '#001480')),
+           sg.Button('Reset', button_color=('white', '#007339'), key='-RESET-'),
+           sg.Exit(button_color=('white', 'firebrick4'), key='-TIMEREXIT-')]]
+
+#Separate window for le timer.
+timer_window = sg.Window('Running Timer', layout,
+                   no_titlebar=True,
+                   auto_size_buttons=False,
+                   keep_on_top=True,
+                   grab_anywhere=True,
+                   element_padding=(0, 0))
 
 
 # ----- layout -----#
@@ -196,9 +196,7 @@ while True:
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
-    # elif event == '-FRIENDS-':
-    #     window['-MY_PROFILE-'].update(visible=False)
-    #     window['-FEED-'].update(visible=True)
+
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
@@ -238,53 +236,57 @@ while True:
 
 
     # ---- dear lord the timer stuff ----#
-    # elif event == '-TIMER_BUTTON-':
-    #     print("clicked on timer button")
-    #     goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')) # POPUP FOR MINUTES
-    #     while not goal.isdigit(): # MAKE SURE IT'S A NUMBER
-    #         sg.popup_error('bruh enter a number')
-    #         goal = str(sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct'))
-    #
-    #     start_time = time_as_int()
-    #     goal = int(goal) * 6000
-    #
-    #     current_time, paused_time, paused = 0, 0, False
-    #
-    #     while True:
-    #         print("while this is true")
-    #         if not paused:
-    #             event, values = timer_window.read(timeout=10)
-    #             current_time = time_as_int() - start_time
-    #             if current_time >= goal:
-    #                 paused = True
-    #         else:
-    #             event, values = timer_window.read()
-    #
-    #         # --------- Do Button Operations --------
-    #         if event in (sg.WIN_CLOSED, '-TIMEREXIT-'):  # ALWAYS give a way out of program
-    #             break
-    #         if event == '-RESET-':
-    #             paused_time = start_time = time_as_int()
-    #             current_time = 0
-    #         elif event == '-RUN-PAUSE-':
-    #             paused = not paused  # flipping the paused
-    #             if paused:
-    #                 paused_time = time_as_int()
-    #             else:
-    #                 start_time = start_time + time_as_int() - paused_time
-    #             # Change button's text
-    #             timer_window['-RUN-PAUSE-'].update('Run' if paused else 'Pause')
-    #         # --------- Display timer in window --------
-    #         timer_window['text'].update('{:02d}:{:02d}.{:02d}'.format((current_time // 100) // 60,
-    #                                                                   (current_time // 100) % 60,
-    #                                                                   current_time % 100))
-    #
-    #
-    #
-    #
-    #
-    # if event == '-TIMEREXIT-':
-    #     timer_window.close()
+    elif event == '-TIMER_BUTTON-':
+        print("clicked on timer button")
+        goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct') # POPUP FOR MINUTES
+        if goal is None: break
+
+        while not str(goal.isdigit()): # MAKE SURE IT'S A NUMBER
+            # if goal is None: break
+            sg.popup_error('bruh enter a number')
+            goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
+
+
+        start_time = time_as_int()
+        goal = int(goal) * 6000
+
+        current_time, paused_time, paused = 0, 0, False
+
+        while True:
+            print("while this is true")
+            if not paused:
+                event, values = timer_window.read(timeout=10)
+                current_time = time_as_int() - start_time
+                if current_time >= goal:
+                    paused = True
+            else:
+                event, values = timer_window.read()
+
+            # --------- Do Button Operations --------
+            if event in (sg.WIN_CLOSED, '-TIMEREXIT-'):  # ALWAYS give a way out of program
+                break
+            if event == '-RESET-':
+                paused_time = start_time = time_as_int()
+                current_time = 0
+            elif event == '-RUN-PAUSE-':
+                paused = not paused  # flipping the paused
+                if paused:
+                    paused_time = time_as_int()
+                else:
+                    start_time = start_time + time_as_int() - paused_time
+                # Change button's text
+                timer_window['-RUN-PAUSE-'].update('Run' if paused else 'Pause')
+            # --------- Display timer in window --------
+            timer_window['text'].update('{:02d}:{:02d}.{:02d}'.format((current_time // 100) // 60,
+                                                                      (current_time // 100) % 60,
+                                                                      current_time % 100))
+
+
+
+
+
+    if event == '-TIMEREXIT-':
+        timer_window.close()
 
     # if statements for other events
 
