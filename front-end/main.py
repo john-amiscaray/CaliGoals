@@ -257,7 +257,6 @@ while True:
         current_time, paused_time, paused = 0, 0, False
 
         while True:
-            print("while this is true")
             if not paused:
                 event, values = timer_window.read(timeout=10)
                 current_time = time_as_int() - start_time
