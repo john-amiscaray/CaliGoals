@@ -1,6 +1,7 @@
 # main.py
 import PySimpleGUI as sg
 import time
+import timer
 from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, Check, Button, B, Btn, ButtonMenu, \
     Canvas, Column, Col, Combo, Frame, Graph, Image, InputText, Input, In, Listbox, LBox, Menu, Multiline, ML, MLine, \
     OptionMenu, Output, Pane, ProgressBar, Radio, Slider, Spin, StatusBar, Tab, TabGroup, Table, Text, Txt, T, Tree, \
@@ -202,7 +203,8 @@ while True:
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
-
+    elif event == '-TIMER_BUTTON-':
+        timer.openTimer()
     # if the user wants to view friends list
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
