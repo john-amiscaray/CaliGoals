@@ -58,15 +58,9 @@ goals_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
 ]
 
-my_profile_layout = [
-    [top_bar_layout],
-    [Image(r'picture_placeholder.png'), badges_layout, goals_layout]
-]
-
-
 # layout for your profile
 my_profile_layout = [
-    [Image(r'picture_placeholder.png'), Column(badges_layout), Column(goals_layout)],
+    [Image(r'full_cat.png'), Column(badges_layout), Column(goals_layout)],
 ]
 
 #----- layout -----#
