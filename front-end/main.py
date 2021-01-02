@@ -17,16 +17,24 @@ format:
 '''
 sg.theme("LightBrown3")
 
+#----- values -----#
+list_goals = []
+list_goal_titles = []
+list_friends = []
+current_friend = {
+            "userId": 0,
+            "username": "default",
+            "password": "", # set blank for obvious reasons
+            "growthAmount": 0,
+            "profilePicture": None}
 
 # ----- functions -----#
 
 def time_as_int():
     return int(round(time.time() * 100))
 
-
 list_goals = []
 list_goal_titles = []
-
 
 def fill_goals(userId):
     goals = back.getUsersGoals(userId)
@@ -34,6 +42,10 @@ def fill_goals(userId):
     for g in goals:
         list_goals.append([g['title'], g['description']])
         list_goal_titles.append(g['title'])
+
+def fill_friends(userId):
+    list_friends = back.getUserFriends(userId)
+
 
 
 # ----- sublayouts -----#
@@ -92,8 +104,7 @@ goals_layout = [
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
             image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
     # add goal button
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png',
-            border_width=0, key='-ADD_GOAL-')],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal')],
 ]
 
 # layout for the goals
@@ -113,10 +124,15 @@ my_profile_layout = [
 
 # layout for the feed
 feed_layout = [
-    [Text('FRIEND PROFILE')],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png',
-            border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
+    [Text(f'{current_friend["username"]}')],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
 ]
+
+# layout for friends frame
+friends_frame_layout = [
+    [Listbox(values=[3, 2, 1], enable_events=True, size=(20,20), key='-FRIENDS_LIST-')]
+]
+
 
 # # layout for the timer popup
 # layout = [[sg.Text('')],
@@ -152,8 +168,10 @@ window = Window('login test', layout)
 # start_time = time_as_int()
 # current_time, paused_time, paused = 0, 0, False
 
+f_window_active = False
+click_friend = False
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=100)
 
     if event == sg.WIN_CLOSED:
         break
@@ -161,7 +179,7 @@ while True:
     elif event == 'Friends':
         print("clicked on friends")
 
-    # if statements for switching windows
+    # if statements for switching pages
     elif event == 'Enter':
         user = values['-USERNAME-']
         password = values['-PASSWORD-']
@@ -173,17 +191,51 @@ while True:
             continue
 
         fill_goals(user_id)
+        list_friends = back.getUserFriends(user_id)
         window['-GOALS_LIST-'].update(list_goal_titles)
 
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
-    elif event == '-FRIENDS-':
-        window['-MY_PROFILE-'].update(visible=False)
-        window['-FEED-'].update(visible=True)
+    # elif event == '-FRIENDS-':
+    #     window['-MY_PROFILE-'].update(visible=False)
+    #     window['-FEED-'].update(visible=True)
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
+
+    # if the user wants to view friends list
+    elif not f_window_active and event == '-FRIENDS-':
+        f_window_active = True
+
+        friends_list_layout = [
+            [Frame('Your Friends', friends_frame_layout)],
+            [Button('Add Friend', key='-ADD_FRIEND-')]
+        ]
+        f_window = Window('Friends', friends_list_layout)
+
+    # while friends list page is active
+    elif f_window_active:
+        ev2, vals2 = f_window.read(timeout=100)
+
+        # update list of friends
+        f_window['-FRIENDS_LIST-'].update([f['username'] for f in list_friends])
+
+        if ev2 == sg.WIN_CLOSED:
+            f_window_active = False
+            f_window.close()
+
+        # if they click on friends list, set current friend to friend clicked.
+        elif ev2 == '-FRIENDS_LIST-':
+            for f in list_friends:
+                if f['username'] == vals2['-FRIENDS_LIST-'][0]:
+                    current_friend = f
+                    print(current_friend)
+
+                    # after choosing a friend, close window
+                    f_window_active = False
+                    f_window.close()
+                    click_friend = True
 
 
     # ---- dear lord the timer stuff ----#
@@ -238,13 +290,26 @@ while True:
     # if statements for other events
 
     # if user adds goal, prompt user input for goal info
-    elif event == '-ADD_GOAL-':
-        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
-        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
-        new_goal_time = str(
-            sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
+    # if the user clicked on a friend
+    elif click_friend:
+        click_friend = False
+        window['-MY_PROFILE-'].update(visible=False)
+        window['-FEED-'].update(visible=True)
 
-        while not new_goal_time.isdigit():
+    elif event == '-ADD_GOAL-':
+
+        # popup returns None if cancelled then continues
+        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
+        if new_goal_title is None: continue
+        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
+        if new_goal_desc is None: continue
+        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+        if new_goal_time is None: continue
+
+        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+
+
+        while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
             new_goal_time = str(
                 sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
@@ -272,6 +337,5 @@ while True:
         # print(values['-GOALS_LIST-'], 'Description:', desc)
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
 
-    print(event)
 
 window.close()
