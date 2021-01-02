@@ -54,7 +54,7 @@ public class PostController {
                     .body(post.getImage());
         }else{
 
-            return new ResponseEntity<>(new Response("You're not this user"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new Response("Cannot find that post from that user"), HttpStatus.FORBIDDEN);
 
         }
     }
@@ -65,6 +65,20 @@ public class PostController {
         User user = userService.getUser(userId);
         return new ResponseEntity<>(new Response(user.getPosts()), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/user/{userId}/post/{postId}")
+    public ResponseEntity<Response> getPost(@PathVariable("userId") Long userId, @PathVariable("postId") Long postId){
+
+        User user = userService.getUser(userId);
+        Post post = postService.getPost(postId);
+        if(user.getPosts().contains(post)) {
+            return new ResponseEntity<>(new Response(new PostDto(post)), HttpStatus.OK);
+        }else{
+
+            return new ResponseEntity<>(new Response("Cannot find that post from that user"), HttpStatus.NOT_FOUND);
+
+        }
     }
 
 }

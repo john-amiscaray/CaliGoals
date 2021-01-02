@@ -18,7 +18,7 @@ public class PostDto {
 
         postId = post.getPostId();
         caption = post.getCaption();
-        post.getImage();
+        image = post.getImage();
 
     }
 
