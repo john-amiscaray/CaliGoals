@@ -78,7 +78,7 @@ goals_layout = [
     # listing the goals
     [Listbox(values=[], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(button_color =(sg.theme_background_color(),sg.theme_background_color()), border_width = 0, image_filename = 'alarm_icon.png',key='-TIMER_BUTTON-' )],
     # add goal button
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal')],
 ]
 
 # layout for the goals
@@ -224,11 +224,16 @@ while True:
 
     # if user adds goal, prompt user input for goal info
     elif event == '-ADD_GOAL-':
-        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
-        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
-        new_goal_time = str(sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
 
-        while not new_goal_time.isdigit():
+        # popup returns None if cancelled then continues
+        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
+        if new_goal_title is None: continue
+        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
+        if new_goal_desc is None: continue
+        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+        if new_goal_time is None: continue
+
+        while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
             new_goal_time = str(sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
 
