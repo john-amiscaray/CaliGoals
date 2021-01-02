@@ -68,6 +68,7 @@ bottom_right_column = Column([
 # ---Login PAGE---#
 
 login_page_layout = [
+
     [Image(r'half_cat.png')],
     [Text('Track your progress, \nWith Cats!', size=(30, 10), font='Courier'), bottom_right_column],
 ]
