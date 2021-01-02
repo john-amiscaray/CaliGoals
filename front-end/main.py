@@ -75,9 +75,9 @@ login_page_layout = [
 # layout for the info bar at top
 top_bar_layout = [
     [Button('Friends', key='-FRIENDS-'),
-     Button('USERNAME_PLACEHOLDER', key='-HOME-'),
+     Button('USERNAME_PLACEHOLDER', key='-HOME-'), Text(' '*40),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)]  # top row of the profile
+            image_filename=r'default_pfp.png', border_width=0, image_subsample=8)]  # top row of the profile
 ]
 
 # layout for the badges
@@ -281,9 +281,6 @@ while True:
             timer_window['text'].update('{:02d}:{:02d}.{:02d}'.format((current_time // 100) // 60,
                                                                       (current_time // 100) % 60,
                                                                       current_time % 100))
-
-
-
 
 
     if event == '-TIMEREXIT-':
