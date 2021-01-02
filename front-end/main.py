@@ -53,7 +53,7 @@ badges_layout = [
 goals_layout = [
     [Text("GOALS")],
     # listing the goals
-    [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(key='-TIMER_BUTTON-')],
+    [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-GOALS_LIST-'), Button(sg.theme_background_color(),sg.theme_background_color(), border_width = 0, image_filename = 'alarm_icon.png',key='-TIMER_BUTTON-' )],
     # add goal button
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-')],
 ]
@@ -67,9 +67,9 @@ my_profile_layout = [
 
 # where we put all the page layouts together as columns
 layout = [
-    [Column(login_page_layout, visible=True, key='-LOGIN-')],
-    [Column(top_bar_layout, visible=False, key='-TOP_BAR-')],
-    [Column(my_profile_layout, visible=False, key='-MY_PROFILE-')],
+    [Column(login_page_layout, visible=False, key='-LOGIN-')],
+    [Column(top_bar_layout, visible=True, key='-TOP_BAR-')],
+    [Column(my_profile_layout, visible=True, key='-MY_PROFILE-')],
 ]
 
 window = Window('login test', layout)
@@ -83,5 +83,6 @@ while True:
         break
     elif event == 'Friends':
         print("clicked on friends")
-
+    if event == '-TIMER_BUTTON-':
+        print("clicked on timer button")
 window.close()
