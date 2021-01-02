@@ -210,8 +210,3 @@ def getUsersGoals(user_id):
     r = requests.get(f'{base_url}/user/{user_id}/goals', auth=auth)
     checkRequestSuccessful(r)
     return r.json()['message']
-
-
-# print(getUsersGoals(2))
-# print(addGoal(1, 'Learn Djano', 1609459200, 1624233600, 0, "It's a python web framework", False))
-# print(getGoal(1, 'Learn Djano'))

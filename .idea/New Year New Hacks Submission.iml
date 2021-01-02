@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/venv" />
-    </content>
+    <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.8 (f2014a236646ff62dccfc9fe5d469ed5-5e99f65633560369db136209356b2366c3358620)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

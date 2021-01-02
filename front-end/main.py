@@ -1,6 +1,6 @@
 # main.py
 import PySimpleGUI as sg
-
+import login
 '''
 format:
 - functions
@@ -9,6 +9,7 @@ format:
 - event
 - window.close()
 '''
+login(('Bobbert', 'pass'))
 
 #----- functions -----#
 
