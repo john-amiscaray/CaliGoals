@@ -36,10 +36,26 @@ def time_as_int():
 
 list_goals = []
 list_goal_titles = []
+growth = 0
+
+def getCatLevel():
+    # YOU CAN EDIT THESE VALUES IN THE FUTURE I DIDN'T PUT MUCH THOUGHT INTO THIS
+    if growth >= 500000:
+        return 'level4.png'
+    elif growth >= 250000:
+        return 'level3.png'
+    elif growth >= 75000:
+        return 'level2.png'
+    else:
+        return 'level1.png'
+
+def refresh_growth(userId):
+    global growth
+    growth = back.getGrowth(userId)
 
 def fill_goals(userId):
     goals = back.getUsersGoals(userId)
-
+    refresh_growth(userId)
     for g in goals:
         list_goals.append([g['title'], g['description']])
         list_goal_titles.append(g['title'])
@@ -123,7 +139,7 @@ friend_goals_layout = [
 # layout for your profile
 my_profile_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png',
-            border_width=0, image_subsample=2),
+            border_width=0, image_subsample=2, key='-YOUR_CAT-'),
      Column(badges_layout),
      Column(goals_layout)],
 ]
@@ -199,16 +215,19 @@ while True:
         fill_goals(user_id)
         list_friends = back.getUserFriends(user_id)
         window['-GOALS_LIST-'].update(list_goal_titles)
-
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
-
+        window['-YOUR_CAT-'].update(image_filename=getCatLevel())
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
     elif event == '-TIMER_BUTTON-':
-        timer.openTimer()
+        time_spent = timer.openTimer()
+        if time_spent is not None:
+            back.addGrowth(user_id, time_spent)
+            refresh_growth(user_id)
+            window['-YOUR_CAT-'].update(image_filename=getCatLevel())
     # if the user wants to view friends list
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
@@ -250,9 +269,11 @@ while True:
         if goal is None: break
 
         while not str(goal.isdigit()): # MAKE SURE IT'S A NUMBER
-            # if goal is None: break
             sg.popup_error('bruh enter a number')
             goal = sg.popup_get_text('Enter time in minutes', 'Time is a man-made construct')
+            if event == 'cancel':
+                pass
+
 
 
         start_time = time_as_int()
@@ -312,7 +333,6 @@ while True:
         if new_goal_time is None: continue
 
         new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
-
 
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')

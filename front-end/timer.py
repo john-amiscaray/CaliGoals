@@ -56,7 +56,7 @@ def openTimer():
             event, values = window.read(timeout=10)
             current_time = time_as_int() - start_time
             if current_time >= goal:
-                current_time, paused_time, paused = 0, 0, True
+                break
         else:
             event, values = window.read()
         # --------- Do Button Operations --------
@@ -79,3 +79,4 @@ def openTimer():
                                                             (current_time // 100) % 60,
                                                             current_time % 100))
     window.close()
+    return current_time

@@ -113,7 +113,7 @@ def getGrowth(user_id):
     return r.json()['message']
 
 
-def setGrowth(user_id, growth_increase):
+def addGrowth(user_id, growth_increase):
     """
     :param user_id: id of the user you
     :param growth_increase: the amount to increase the "cat growth" by
