@@ -39,7 +39,7 @@ list_goals = []
 list_goal_titles = []
 growth = 0
 
-def getCatLevel():
+def getCatLevel(growth):
     # YOU CAN EDIT THESE VALUES IN THE FUTURE I DIDN'T PUT MUCH THOUGHT INTO THIS
     if growth >= 9000:
         return 'level4.png'
@@ -49,6 +49,7 @@ def getCatLevel():
         return 'level2.png'
     else:
         return 'level1.png'
+
 
 def refresh_growth(userId):
     global growth
@@ -95,7 +96,6 @@ bot_page = [
 ]
 
 login_page_layout = [
-
     [Image(r'half_cat.png')],
     [Frame('', bot_page, background_color=sg.theme_input_background_color(), border_width=0)]
 ]
@@ -140,7 +140,7 @@ goals_layout = [
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
             image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
     # add goal button
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-'), Text('New Goal', font=('Courier', 12))],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(100, 100)), Text('New Goal', font=('Courier', 12))],
 ]
 
 # layout for the goals
@@ -160,8 +160,8 @@ my_profile_layout = [
 
 # layout for the feed
 feed_layout = [
-    [Text(f'{current_friend["username"]}')],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2), Column(friend_badges_layout), Column(friend_goals_layout)]
+    [Text(f'{current_friend["username"]}', key='-CURRENT_FRIEND-', size=(29, 0), justification='center', font=('courier', 26))],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png', border_width=0, image_subsample=2, key='-FRIEND_CAT-'), Column(friend_badges_layout), Column(friend_goals_layout)]
 ]
 
 # layout for friends frame
@@ -222,6 +222,7 @@ while True:
 
         try:
             user_id = back.login((user, password))
+            window['-HOME-'].update(text=user)
         except:
             sg.popup_error('wrong credentials')
             continue
@@ -233,7 +234,7 @@ while True:
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
-        window['-YOUR_CAT-'].update(image_filename=getCatLevel())
+        window['-YOUR_CAT-'].update(image_filename=getCatLevel(growth))
 
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
@@ -251,13 +252,12 @@ while True:
         if time_spent is not None:
             back.addGrowth(user_id, time_spent)
             refresh_growth(user_id)
-            window['-YOUR_CAT-'].update(image_filename=getCatLevel())
+            window['-YOUR_CAT-'].update(image_filename=getCatLevel(growth))
             back.addTimeToGoal(user_id, values['-GOALS_LIST-'][0], time_spent)
             update_goals()
     # if the user wants to view friends list
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
-
         friends_list_layout = [
             [Frame('Your Friends', friends_frame_layout, font=('Courier', 12))],
             [Button('Add Friend', key='-ADD_FRIEND-', font=('Courier', 10))]
@@ -280,8 +280,9 @@ while True:
             for f in list_friends:
                 if f['username'] == vals2['-FRIENDS_LIST-'][0]:
                     current_friend = f
-                    print(current_friend)
-
+                    window['-CURRENT_FRIEND-'].update(value=current_friend['username'])
+                    window['-FRIEND_GOALS_LIST-'].update([i['title'] for i in back.getUsersGoals(f["userId"])])
+                    window['-FRIEND_CAT-'].update(image_filename=getCatLevel(f["growthAmount"]))
                     # after choosing a friend, close window
                     f_window_active = False
                     f_window.close()
@@ -322,7 +323,6 @@ while True:
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
-        # I WAS ALSO HERE
         desc = None
 
         # search for goal
