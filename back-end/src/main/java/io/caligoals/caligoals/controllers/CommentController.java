@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @RestController
 public class CommentController {
 
@@ -20,14 +22,20 @@ public class CommentController {
     @GetMapping("/post/{postId}/comments")
     public ResponseEntity<Response> getAllCommentsOfPost(@PathVariable("postId") Long postId){
 
-        return new ResponseEntity<>(new Response(postService.getComments(postId)), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(postService.getComments(postId).stream()
+                .map(CommentDto::new)
+                .collect(Collectors.toList())
+        ), HttpStatus.OK);
 
     }
 
-    @PostMapping("/post/add")
-    public ResponseEntity<Response> addPost(@RequestBody CommentDto dto){
+    @PostMapping("/user/{userId}/post/{postId}/comment")
+    public ResponseEntity<Response> addComment(@RequestBody CommentDto dto, @PathVariable("userId") Long userId,
+                                               @PathVariable("postId") Long postId){
 
-        this.commentService.addComment(dto);
+        dto.setPostId(postId);
+        dto.setUserId(userId);
+        commentService.addComment(dto);
         return new ResponseEntity<>(new Response("Successfully added comment"), HttpStatus.OK);
 
     }

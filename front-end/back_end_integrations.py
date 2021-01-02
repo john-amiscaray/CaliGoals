@@ -29,7 +29,6 @@ def login(login_details):
     return r.json()['message']
 
 
-
 def signUp(auth):
     """
     :param auth: a tuple containing the username and password in that order
@@ -49,6 +48,8 @@ def setProfilePicture(file_dir, user_id):
     global auth
     files = {'file': open(file_dir, 'rb')}
     r = requests.post(f'{base_url}/user/{user_id}/profile-picture', files=files, auth=auth)
+    checkRequestSuccessful(r)
+    return True
 
 
 def getProfilePicture(file_name, user_id):
@@ -107,7 +108,7 @@ def getGrowth(user_id):
     :param user_id: the id of the user you are interested in
     :return: the amount of "cat growth" the user has done or raises exception if failed
     """
-    r = requests.get(f'{base_url}/user/{user_id}/growth',auth=auth)
+    r = requests.get(f'{base_url}/user/{user_id}/growth', auth=auth)
     checkRequestSuccessful(r)
     return r.json()['message']
 
@@ -123,6 +124,23 @@ def setGrowth(user_id, growth_increase):
     return True
 
 
+def getPost(post_id):
+    """
+    :param post_id: id of the post we want to get
+    :return: a dictionary representing that post should look like this:
+    {
+        "postId": 1234,
+        "caption": "This is my first post",
+        "image": SOME BYTES,
+        "userId": 420
+
+    }
+    """
+    r = requests.get(f'{base_url}/post/{post_id}', auth=auth)
+    checkRequestSuccessful(r)
+    return r.json()['message']
+
+
 def addPost(user_id, caption):
     """
     :param user_id: the id of the user posting
@@ -134,6 +152,73 @@ def addPost(user_id, caption):
     r = requests.post(f'{base_url}/user/{user_id}/post', json={'caption': caption}, auth=auth)
     checkRequestSuccessful(r)
     return r.json()['message']
+
+
+def getFeed(user_id):
+    """
+    :param user_id: the user you are interested
+    :return: a list of dictionaries representing all the posts of the user's friends. It should look like this:
+    [
+        {
+            "postId": 69,
+            "caption": "this is a caption",
+            "image": SOME RANDOM BYTES,
+            "userId": 420
+
+        }
+    ]
+    """
+    r = requests.get(f'{base_url}/user/{user_id}/feed', auth=auth)
+    checkRequestSuccessful(r)
+    return r.json()['message']
+
+
+def getPosts(user_id):
+    """
+    :param user_id: The id of the user we are interested in
+    :return: a list of dictionaries representing all of that user's post. Should look like this:
+    [
+        {
+            "postId": 69,
+            "caption": "this is a caption",
+            "image": SOME RANDOM BYTES,
+            "userId": 420
+
+        }
+    ]
+    """
+    r = requests.get(f'{base_url}/user/{user_id}/posts', auth=auth)
+    checkRequestSuccessful(r)
+    return r.json()['message']
+
+
+def getPostImage(file_name, user_id, post_id):
+    """
+    :param user_id: id of the user who owns the post
+    :param post_id: id of the post we are interested in
+    :param file_name: name of the file to put the image to (no file extensions)
+    :return: the location of the file
+    """
+    r = requests.get(f'{base_url}/user/{user_id}/post/{post_id}/image', auth=auth)
+    checkRequestSuccessful(r)
+    location = f'{file_name}.png'
+    image = open(location, 'wb')
+    image.write(r.content)
+    return location
+
+
+def setPostImage(file_dir, user_id, post_id):
+    """
+    :param file_dir: the location of the file
+    :param user_id: the id of the user to set the post image of
+    :param post_id: the id of the post we are interested in
+    :return: True if successful else an exception is raised
+    """
+    global auth
+    files = {'file': open(file_dir, 'rb')}
+    r = requests.post(f'{base_url}/user/{user_id}/post/{post_id}/image', files=files, auth=auth)
+    checkRequestSuccessful(r)
+    return True
 
 
 def getGoal(user_id, title):
@@ -161,7 +246,7 @@ def getGoal(user_id, title):
     return r.json()['message']
 
 
-def addGoal(user_id, title, start, end, description, is_complete = False, time_spent = 0):
+def addGoal(user_id, title, start, end, description, is_complete=False, time_spent=0):
     """
     :param user_id: id of the user who will own the goal
     :param title: title of the goal
@@ -212,13 +297,67 @@ def getUsersGoals(user_id):
     checkRequestSuccessful(r)
     return r.json()['message']
 
-# signUp(('user', 'pass'))
-# signUp(('stalin', 'hi'))
-# signUp(('wee', 'woo'))
-# addFriend(1, 6)
-# addFriend(1, 7)
 
-# print(getUsersGoals(2))
-# print(addGoal(1, 'Learn Djano', 1609459200, 1624233600, 0, "It's a python web framework", False))
-# print(getGoal(1, 'Learn Djano'))
+def getGoalIcon(file_name, user_id, title):
+    """
+    :param user_id: id of the user who owns the goal
+    :param title: title of the goal we are interested in
+    :param file_name: name of the file to put the image to (no file extensions)
+    :return: the location of the file
+    """
+    r = requests.get(f'{base_url}/user/{user_id}/goal/{title}/image', auth=auth)
+    checkRequestSuccessful(r)
+    location = f'{file_name}.png'
+    image = open(location, 'wb')
+    image.write(r.content)
+    return location
+
+
+def setGoalIcon(file_dir, user_id, title):
+    """
+    :param file_dir: the location of the file
+    :param user_id: the id of the user to set the goal image of
+    :param title: the id of the post we are interested in
+    :return: True if successful else an exception is raised
+    """
+    global auth
+    files = {'file': open(file_dir, 'rb')}
+    r = requests.post(f'{base_url}/user/{user_id}/goal/{title}/image', files=files, auth=auth)
+    checkRequestSuccessful(r)
+    return True
+
+
+def getPostComments(post_id):
+    """
+    :param post_id: id of the post you are interested in
+    :return: a list of dictionaries representing the comments for that post. It should look like this:
+    [
+        {
+            "commentId": 1,
+            "postId": 7,
+            "userId": 1,
+            "content": "boo you suck"
+        }
+    ]
+    """
+    r = requests.get(f'{base_url}/post/{post_id}/comments', auth=auth)
+    checkRequestSuccessful(r)
+    return r.json()['message']
+
+
+def addComment(user_id, post_id, content):
+    """
+    :param user_id: id of the user adding the comment
+    :param post_id: id of the post the comment is for
+    :param content: the content of the comment
+    :return: True if successful, else raises an Exception
+    """
+    json = {
+
+        "content": content
+
+    }
+    r = requests.post(f'{base_url}/user/{user_id}/post/{post_id}/comment', json=json, auth=auth)
+    checkRequestSuccessful(r)
+    return True
 
