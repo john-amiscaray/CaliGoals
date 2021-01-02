@@ -19,6 +19,7 @@ format:
 sg.theme("LightBrown3")
 
 #----- values -----#
+user = ''
 list_goals = []
 list_goal_titles = []
 list_friends = []
@@ -40,11 +41,11 @@ growth = 0
 
 def getCatLevel():
     # YOU CAN EDIT THESE VALUES IN THE FUTURE I DIDN'T PUT MUCH THOUGHT INTO THIS
-    if growth >= 500000:
+    if growth >= 9000:
         return 'level4.png'
-    elif growth >= 250000:
+    elif growth >= 6000:
         return 'level3.png'
-    elif growth >= 75000:
+    elif growth >= 3000:
         return 'level2.png'
     else:
         return 'level1.png'
@@ -76,30 +77,36 @@ def update_goals():
 
 # layout for the login page by Johan yeye kewl ;3
 layoutthing = [
-    [Text(" " * 50), Button("Enter")]
+    [Text(" " *48), Button("Enter", font=('Courier', 10))]
 ]
+
 # ---Login Column---#
 bottom_right_column = Column([
-    [Text("Username", size=(7, 3))],
-    [InputText(key="-USERNAME-", size=(37, 5))],
-    [Text("Password", size=(7, 3))],
-    [InputText(key="-PASSWORD-", size=(37, 5), password_char='*')],
+    [Text("Username", size=(10, 2), font=('Courier', 12))],
+    [InputText(key="-USERNAME-", size=(37, 5), background_color='#E0DEDE')],
+    [Text("Password", size=(10, 2), font=('Courier', 12))],
+    [InputText(key="-PASSWORD-", size=(37, 5), password_char='*', background_color='#E0DEDE')],
     [Column(layoutthing)]
 ])
 
 # ---Login PAGE---#
+bot_page = [
+    [Text('\n\n\nTrack your progress, \nWith Cats!', size=(30, 10), font=('Courier', 12, 'bold'), justification='center'), bottom_right_column],
+]
 
 login_page_layout = [
 
     [Image(r'half_cat.png')],
-    [Text('Track your progress, \nWith Cats!', size=(30, 10), font='Courier'), bottom_right_column],
+    [Frame('', bot_page, background_color=sg.theme_input_background_color(), border_width=0)]
 ]
 
 # layout for the info bar at top
 top_bar_frame_layout = [
-    [Text('CaliGoals!', justification='centre', font=('Courier', 12), background_color=sg.theme_button_color()[0])],
-    [Button('Friends', key='-FRIENDS-'),
-     Button('USERNAME_PLACEHOLDER', key='-HOME-'),
+    [Text('Welcome to CaliGoals!', justification='centre', font=('Courier', 12), background_color=sg.theme_button_color()[0])],
+    [Button(button_color=(sg.theme_button_color()[0], sg.theme_button_color()[0]),
+            image_filename=r'paw_icon.png', border_width=0, key='-FRIENDS-'),
+     Button(button_color=(sg.theme_button_color()[0], sg.theme_button_color()[0]),
+            image_filename=r'home_icon.png', border_width=0, key='-HOME-'),
      Text(' '*40, text_color=sg.theme_button_color()[0], background_color=sg.theme_button_color()[0]),
      Button(button_color=(sg.theme_button_color()[0], sg.theme_button_color()[0]),
             image_filename=r'default_pfp.png', border_width=0, image_subsample=8)]  # top row of the profile
@@ -190,7 +197,7 @@ layout = [
      Column(feed_layout, visible=False, key='-FEED-')]
 ]
 
-window = Window('login test', layout)
+window = Window('CaliGoals', layout)
 
 # ----- events -----#
 #
@@ -218,17 +225,28 @@ while True:
         except:
             sg.popup_error('wrong credentials')
             continue
+
         fill_goals(user_id)
         list_friends = back.getUserFriends(user_id)
+
         window['-GOALS_LIST-'].update(list_goal_titles)
         window['-LOGIN-'].update(visible=False)
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
         window['-YOUR_CAT-'].update(image_filename=getCatLevel())
+
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
         window['-FEED-'].update(visible=False)
+
     elif event == '-TIMER_BUTTON-':
+        # check if the user selected a goal
+        try:
+            print(values['-GOALS_LIST-'][0])
+        except:
+            sg.popup_quick_message('Select a goal to time!', font=('Courier', 12, 'bold'), background_color='yellow')
+            continue
+
         time_spent = timer.openTimer()
         if time_spent is not None:
             back.addGrowth(user_id, time_spent)
@@ -318,6 +336,9 @@ while True:
         # print(values['-GOALS_LIST-'], 'Description:', desc)
 
         sg.popup_ok(values['-GOALS_LIST-'][0], desc)
+
+    elif event == '-YOUR_CAT-':
+        sg.popup_animated(image_source='')
 
 
 window.close()
