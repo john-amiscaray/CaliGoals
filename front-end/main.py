@@ -57,12 +57,19 @@ def fill_goals(userId):
     goals = back.getUsersGoals(userId)
     refresh_growth(userId)
     for g in goals:
-        list_goals.append([g['title'], g['description']])
+        list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minutes"])
         list_goal_titles.append(g['title'])
 
 def fill_friends(userId):
     list_friends = back.getUserFriends(userId)
 
+
+def update_goals():
+    global list_goals, list_goal_titles
+    list_goals = []
+    list_goal_titles = []
+    fill_goals(user_id)
+    window['-GOALS_LIST-'].update(list_goal_titles)
 
 
 # ----- sublayouts -----#
@@ -228,6 +235,7 @@ while True:
             refresh_growth(user_id)
             window['-YOUR_CAT-'].update(image_filename=getCatLevel())
             back.addTimeToGoal(user_id, values['-GOALS_LIST-'][0], time_spent)
+            update_goals()
     # if the user wants to view friends list
     elif not f_window_active and event == '-FRIENDS-':
         f_window_active = True
