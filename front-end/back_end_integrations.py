@@ -67,13 +67,6 @@ def getProfilePicture(user_id,file_name='pfp'):
         image = open(location, 'wb')
         image.write(r.content)
         image.close()
-<<<<<<< HEAD
-        image = Image.open(location)
-        new_image = image.resize((25, 25))
-        new_image.save(location)
-        return location
-    return 'default_pfp.png'
-=======
     else:
         location = 'default_pfp.png'
 
@@ -81,8 +74,6 @@ def getProfilePicture(user_id,file_name='pfp'):
     new_image = image.resize(dimensions)
     new_image.save(location)
     return location
-
->>>>>>> 801f6308ce9053f311de9b4e5e50a80c0a07aad3
 
 
 def getUserFriends(user_id):
