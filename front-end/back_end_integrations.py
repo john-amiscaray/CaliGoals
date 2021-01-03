@@ -1,4 +1,5 @@
 import requests
+from PIL import Image
 
 base_url = 'http://localhost:8080'
 auth = ('user', 'pass')
@@ -52,7 +53,7 @@ def setProfilePicture(file_dir, user_id):
     return True
 
 
-def getProfilePicture(file_name, user_id):
+def getProfilePicture(user_id,file_name='pfp'):
     """
     :param file_name: name of the file to save it to (don't put file extensions)
     :param user_id: id of the user you want the profile picture of
@@ -60,10 +61,16 @@ def getProfilePicture(file_name, user_id):
     """
     r = requests.get(f'{base_url}/user/{user_id}/profile-picture', auth=auth)
     checkRequestSuccessful(r)
-    location = f'{file_name}.png'
-    image = open(location, 'wb')
-    image.write(r.content)
-    return location
+    if r.content:
+        location = f'{file_name}.png'
+        image = open(location, 'wb')
+        image.write(r.content)
+        image.close()
+        image = Image.open(location)
+        new_image = image.resize((50, 50))
+        new_image.save(location)
+        return location
+    return 'default_pfp.png'
 
 
 def getUserFriends(user_id):
