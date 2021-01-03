@@ -102,7 +102,7 @@ bottom_right_column = Column([
 
 # ---Login PAGE---#
 bot_page = [
-    [Text('\n\n\nTrack your progress, \nWith Cats!', size=(30, 10), font=('Courier', 12, 'bold'), justification='center'), bottom_right_column],
+    [Text('\n\n\nTrack your progress, \nWith Cats!', size=(30, 10), font=('Courier', 20, 'bold'), justification='center'), bottom_right_column],
 ]
 
 login_page_layout = [
@@ -144,9 +144,9 @@ friend_badges_layout = [
 
 # layout for the goals
 goals_layout = [
-    [Text("GOALS", font=('Courier', 12))],
+    [Text("\nGOALS", font=('Courier', 12), size = (33,3), justification='centre', border_width=1)],
     # listing the goals
-    [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-'),
+    [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',background_color='#E0DEDE'),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
             image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
     # add goal button
