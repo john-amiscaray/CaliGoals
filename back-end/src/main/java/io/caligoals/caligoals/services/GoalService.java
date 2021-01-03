@@ -101,6 +101,11 @@ public class GoalService {
         GoalId id = new GoalId(user, title );
         Goal goal = getGoal(id);
         goal.setTimeSpent(goal.getTimeSpent() + timeSpent);
+        if(goal.getTimeSpent() >= goal.getTimeNeeded()){
+
+            goal.setComplete(true);
+
+        }
         editGoal(goal);
 
     }

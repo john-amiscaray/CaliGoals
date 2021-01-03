@@ -73,7 +73,9 @@ def fill_goals(userId):
     goals = back.getUsersGoals(userId)
     refresh_growth(userId)
     for g in goals:
-        list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minutes"])
+        if g['complete']:
+            continue
+        list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minute(s) / {g['timeNeeded'] // 6000} minutes"])
         list_goal_titles.append(g['title'])
 
 def fill_friends(userId):
@@ -151,20 +153,25 @@ friend_badges_layout = [
 ]
 
 goals_frame = [
-    [Text("\nGOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 button_new_goal_frame = [
 # add goal button
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(15, 15)), Text('New Goal', font=('Courier', 12))],
 ]
+
 completed_goals = [
     [Listbox(values=[], enable_events=True, size= (40,5), font=("Courier", 10), key="-COMPLETED_GOALS_LIST-")]
 ]
 
+incomplete_goal_frame = [
+# add goal button
+    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
+]
+
 timer_button_and_goals = [
     # listing the goals
-    [Text("\nGOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
     [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',
              background_color='#E0DEDE'),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
@@ -175,17 +182,29 @@ timer_button_and_goals = [
 goals_layout = [
     [Frame('', goals_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     [Frame('', completed_goals, background_color=sg.theme_input_background_color(), border_width=0)],
+    [Frame('', incomplete_goal_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     [Frame('', timer_button_and_goals, background_color=sg.theme_background_color(), border_width=0)],
     [Frame('', button_new_goal_frame, background_color=sg.theme_input_background_color(), border_width=0)]
 ]
 
 goals_friend_frame = [
-    [Text("\nGOALS", font=('Courier', 15), size=(27, 3), justification='centre', border_width=0)],
+    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
+]
+
+completed_friend_goals = [
+    [Listbox(values=[], enable_events=True, size= (40,5), font=("Courier", 10), key="-COMPLETED_GOALS_LIST-")]
+]
+
+incomplete_goal_friend_frame = [
+# add goal button
+    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 # layout for the goals ayayayaya
 friend_goals_layout = [
     [Frame('', goals_friend_frame, background_color=sg.theme_input_background_color(), border_width=0)],
+    [Frame('', completed_friend_goals, background_color=sg.theme_input_background_color(), border_width=0)],
+    [Frame('', incomplete_goal_friend_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     # listing the goals
     [Listbox(values=[1, 2, 3], enable_events=True, size=(42, 20), key='-FRIEND_GOALS_LIST-',background_color='#E0DEDE')],
 ]
@@ -361,7 +380,7 @@ while True:
 
         window['-GOALS_LIST-'].update(list_goal_titles)
 
-        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc)
+        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc, new_goal_time * 6000)
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
