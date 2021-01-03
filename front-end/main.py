@@ -9,6 +9,7 @@ from PySimpleGUI import InputCombo, Combo, Multiline, ML, MLine, Checkbox, CB, C
 import back_end_integrations as back
 from copy import deepcopy
 import random
+from back_end_integrations import RequestException
 '''
 format:
 - functions
@@ -108,9 +109,9 @@ layoutthing = [
 # ---Login Column---#
 bottom_right_column = Column([
     [Text("Username", size=(10, 2), font=('Courier', 12))],
-    [InputText(key="-USERNAME-", size=(37, 5), background_color='#E0DEDE')],
+    [InputText(key="-USERNAME-", size=(37, 5), background_color='#E0DEDE', font=('Courier', 10))],
     [Text("Password", size=(10, 2), font=('Courier', 12))],
-    [InputText(key="-PASSWORD-", size=(37, 5), password_char='*', background_color='#E0DEDE')],
+    [InputText(key="-PASSWORD-", size=(37, 5), password_char='*', background_color='#E0DEDE', font=('Courier', 10))],
     [Column(layoutthing)]
 ])
 
@@ -378,14 +379,14 @@ while True:
     elif event == '-ADD_GOAL-':
 
         # popup returns None if cancelled then continues
-        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title')
+        new_goal_title = sg.popup_get_text('Please input the title of the new goal', 'Goal Title', font=('Courier', 10))
         if new_goal_title is None: continue
-        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
+        new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description', font=('Courier', 10))
         if new_goal_desc is None: continue
         # new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
         # if new_goal_time is None: continue
 
-        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time', font=('Courier', 10))
         if new_goal_time is None: continue
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
@@ -397,7 +398,7 @@ while True:
 
         window['-GOALS_LIST-'].update(list_goal_titles)
 
-        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc, new_goal_time * 6000)
+        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc, int(new_goal_time) * 6000)
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
