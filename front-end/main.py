@@ -151,19 +151,32 @@ friend_badges_layout = [
 ]
 
 goals_frame = [
-    [Text("\nGOALS", font=('Courier', 15), size=(27, 3), justification='centre', border_width=0)],
+    [Text("\nGOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
 ]
 
+button_new_goal_frame = [
+# add goal button
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(15, 15)), Text('New Goal', font=('Courier', 12))],
+]
+completed_goals = [
+    [Listbox(values=[], enable_events=True, size= (40,5), font=("Courier", 10), key="-COMPLETED_GOALS_LIST-")]
+]
+
+timer_button_and_goals = [
+    # listing the goals
+    [Text("\nGOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',
+             background_color='#E0DEDE'),
+     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
+            image_filename='big_alarm_clock.png', key='-TIMER_BUTTON-')],
+]
 
 # layout for the goals
 goals_layout = [
     [Frame('', goals_frame, background_color=sg.theme_input_background_color(), border_width=0)],
-    # listing the goals
-    [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',background_color='#E0DEDE'),
-     Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
-            image_filename='alarm_icon.png', key='-TIMER_BUTTON-')],
-    # add goal button
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(100, 100)), Text('New Goal', font=('Courier', 12))],
+    [Frame('', completed_goals, background_color=sg.theme_input_background_color(), border_width=0)],
+    [Frame('', timer_button_and_goals, background_color=sg.theme_background_color(), border_width=0)],
+    [Frame('', button_new_goal_frame, background_color=sg.theme_input_background_color(), border_width=0)]
 ]
 
 goals_friend_frame = [
@@ -272,7 +285,7 @@ while True:
         try:
             print(values['-GOALS_LIST-'][0])
         except:
-            sg.popup_quick_message('Select a goal to time!', font=('Courier', 12, 'bold'), background_color='yellow')
+            sg.popup_quick_message('Select a goal to time!', font=('Courier', 12, 'bold'), background_color='#ff007f')
             continue
 
         time_spent = timer.openTimer()
@@ -369,6 +382,8 @@ while True:
     elif event == '-YOUR_CAT-':
         sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
 
+<<<<<<< HEAD
+=======
     elif event == '-FRIEND_GOALS_LIST-':
         goal = values['-FRIEND_GOALS_LIST-']
         if len(goal) > 0:
@@ -378,4 +393,5 @@ while True:
             sg.popup_ok(back.getGoal(id, goal_title)['description'])
 
 
+>>>>>>> 0071a280d25f1c326cfefc33a9a1422c85031b0b
 window.close()
