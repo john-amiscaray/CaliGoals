@@ -67,7 +67,7 @@ def getProfilePicture(user_id,file_name='pfp'):
         image.write(r.content)
         image.close()
         image = Image.open(location)
-        new_image = image.resize((50, 50))
+        new_image = image.resize((25, 25))
         new_image.save(location)
         return location
     return 'default_pfp.png'
@@ -379,5 +379,3 @@ def addTimeToGoal(user_id, title, time):
     r = requests.put(f'{base_url}/user/{user_id}/goal/{title}/addTime/{time}', auth=auth)
     checkRequestSuccessful(r)
     return True
-
-addFriend(1, 2)
