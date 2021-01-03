@@ -206,7 +206,7 @@ friend_goals_layout = [
     [Frame('', completed_friend_goals, background_color=sg.theme_input_background_color(), border_width=0)],
     [Frame('', incomplete_goal_friend_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     # listing the goals
-    [Listbox(values=[1, 2, 3], enable_events=True, size=(42, 20), key='-FRIEND_GOALS_LIST-',background_color='#E0DEDE')],
+    [Listbox(values=[1, 2, 3], enable_events=True, size=(46, 20), key='-FRIEND_GOALS_LIST-',background_color='#E0DEDE')],
 ]
 
 # layout for your profile
