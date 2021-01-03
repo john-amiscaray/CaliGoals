@@ -384,8 +384,6 @@ while True:
     elif event == '-YOUR_CAT-':
         sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
 
-<<<<<<< HEAD
-=======
     elif event == '-FRIEND_GOALS_LIST-':
         goal = values['-FRIEND_GOALS_LIST-']
         if len(goal) > 0:
@@ -394,6 +392,4 @@ while True:
             # I WAS HERE
             sg.popup_ok(back.getGoal(id, goal_title)['description'])
 
-
->>>>>>> 0071a280d25f1c326cfefc33a9a1422c85031b0b
 window.close()
