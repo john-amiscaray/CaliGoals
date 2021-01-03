@@ -333,11 +333,11 @@ while True:
         if new_goal_title is None: continue
         new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
         if new_goal_desc is None: continue
+        # new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+        # if new_goal_time is None: continue
+
         new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
         if new_goal_time is None: continue
-
-        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
-
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
             new_goal_time = str(
