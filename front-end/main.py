@@ -51,6 +51,8 @@ def time_as_int():
 
 list_goals = []
 list_goal_titles = []
+complete_goals_titles = []
+complete_goals = []
 growth = 0
 
 def getCatLevel(growth):
@@ -74,6 +76,8 @@ def fill_goals(userId):
     refresh_growth(userId)
     for g in goals:
         if g['complete']:
+            complete_goals_titles.append(g['title'])
+            complete_goals.append([g['title'], f"{g['timeSpent'] // 6000} minute(s) spent"])
             continue
         list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minute(s) / {g['timeNeeded'] // 6000} minutes"])
         list_goal_titles.append(g['title'])
@@ -83,11 +87,15 @@ def fill_friends(userId):
 
 
 def update_goals():
-    global list_goals, list_goal_titles
+    global list_goals, list_goal_titles, complete_goals_titles
     list_goals = []
     list_goal_titles = []
+    complete_goals_titles = []
     fill_goals(user_id)
     window['-GOALS_LIST-'].update(list_goal_titles)
+    print("Here")
+    window['-COMPLETED_GOALS_LIST-'].update(values=complete_goals_titles)
+    print(values['-COMPLETED_GOALS_LIST-'])
 
 
 # ----- sublayouts -----#
@@ -277,6 +285,7 @@ while True:
         window['-TOP_BAR-'].update(visible=True)
         window['-MY_PROFILE-'].update(visible=True)
         window['-YOUR_CAT-'].update(image_filename=getCatLevel(growth))
+        window['-COMPLETED_GOALS_LIST-'].update(complete_goals_titles)
 
     elif event == '-HOME-':
         window['-MY_PROFILE-'].update(visible=True)
@@ -391,5 +400,19 @@ while True:
             id = current_friend['userId']
             # I WAS HERE
             sg.popup_ok(back.getGoal(id, goal_title)['description'])
+    elif event == '-COMPLETED_GOALS_LIST-':
+        desc = None
+
+        # search for goal
+        for i in complete_goals:
+            if i[0] == values['-COMPLETED_GOALS_LIST-'][0]:
+                desc = i[1]
+
+        # if there is no description/did not click on valid goal
+        if desc is None: continue
+
+        # print(values['-GOALS_LIST-'], 'Description:', desc)
+
+        sg.popup_ok(values['-COMPLETED_GOALS_LIST-'][0], desc)
 
 window.close()

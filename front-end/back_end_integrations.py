@@ -301,7 +301,7 @@ def getUsersGoals(user_id):
             "endDate": 32738972198372,
             "timeSpent": 42069,
             "description": "I love communism",
-            "isComplete": False,
+            "complete": False,
             "timeNeeded": 69696969
         }
 
