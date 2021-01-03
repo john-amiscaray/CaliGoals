@@ -26,7 +26,11 @@ cat_msg = [
     'rawr',
     'You can do it!',
     'Reach those goalss',
-    'insert words of encouragement here'
+    'insert words of encouragement here',
+    'I believe in uuu',
+    'meeeooowww :3',
+    'you\'re doing AMEOWSING!',
+    'purrrrr...'
 ]
 
 user = ''
@@ -126,12 +130,16 @@ top_bar_layout = [
     [Frame('', top_bar_frame_layout, background_color=sg.theme_button_color()[0], border_width=5)]
 ]
 
+badges_frame = [
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+]
+
 # layout for the badges
 badges_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Frame('Badges', badges_frame, font=('Courier', 12, 'bold'), background_color=sg.theme_input_background_color())]
 ]
 
 # layout for friend badges
@@ -144,7 +152,7 @@ friend_badges_layout = [
 
 # layout for the goals
 goals_layout = [
-    [Text("\nGOALS", font=('Courier', 12), size = (33,3), justification='centre', border_width=1)],
+    [Text("\n\nGOALS", font=('Courier', 15), size = (27,3), justification= 'centre', border_width=0)],
     # listing the goals
     [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',background_color='#E0DEDE'),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
@@ -153,11 +161,11 @@ goals_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(100, 100)), Text('New Goal', font=('Courier', 12))],
 ]
 
-# layout for the goals
+# layout for the goals ayayayaya
 friend_goals_layout = [
-    [Text("GOALS")],
+    [Text("\n\nGOALS", font=('Courier', 15), size = (27,3), justification= 'centre', border_width=0)],
     # listing the goals
-    [Listbox(values=[1, 2, 3], enable_events=True, size=(40, 20), key='-FRIEND_GOALS_LIST-')],
+    [Listbox(values=[1, 2, 3], enable_events=True, size=(42, 20), key='-FRIEND_GOALS_LIST-',background_color='#E0DEDE')],
 ]
 
 # layout for your profile
