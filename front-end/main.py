@@ -232,7 +232,6 @@ while True:
 
         try:
             user_id = back.login((user, password))
-            window['-HOME-'].update(text=user)
         except:
             sg.popup_error('wrong credentials')
             continue
@@ -278,13 +277,11 @@ while True:
     elif f_window_active:
         ev2, vals2 = f_window.read(timeout=100)
 
-        # update list of friends
-        f_window['-FRIENDS_LIST-'].update([f['username'] for f in list_friends])
-
         if ev2 == sg.WIN_CLOSED:
+            print("EXIT")
             f_window_active = False
             f_window.close()
-
+            continue
         # if they click on friends list, set current friend to friend clicked.
         elif ev2 == '-FRIENDS_LIST-':
             for f in list_friends:
@@ -297,6 +294,10 @@ while True:
                     f_window_active = False
                     f_window.close()
                     click_friend = True
+            continue
+
+        # update list of friends
+        f_window['-FRIENDS_LIST-'].update([f['username'] for f in list_friends])
 
     # if statements for other events
 
