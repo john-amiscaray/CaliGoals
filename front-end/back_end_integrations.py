@@ -372,3 +372,5 @@ def addTimeToGoal(user_id, title, time):
     r = requests.put(f'{base_url}/user/{user_id}/goal/{title}/addTime/{time}', auth=auth)
     checkRequestSuccessful(r)
     return True
+
+addFriend(1, 2)
