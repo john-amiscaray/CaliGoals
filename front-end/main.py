@@ -161,7 +161,7 @@ friend_badges_layout = [
 ]
 
 goals_frame = [
-    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 button_new_goal_frame = [
@@ -175,7 +175,7 @@ completed_goals = [
 
 incomplete_goal_frame = [
 # add goal button
-    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 timer_button_and_goals = [
@@ -196,7 +196,7 @@ goals_layout = [
 ]
 
 goals_friend_frame = [
-    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Text("\n COMPLETED GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 completed_friend_goals = [
@@ -205,7 +205,7 @@ completed_friend_goals = [
 
 incomplete_goal_friend_frame = [
 # add goal button
-    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(36, 3), justification='centre', border_width=0)],
+    [Text("\n CURRENT GOALS", font=('Courier', 12), size=(33, 3), justification='centre', border_width=0)],
 ]
 
 # layout for the goals ayayayaya
