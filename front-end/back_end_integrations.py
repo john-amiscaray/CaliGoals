@@ -242,8 +242,9 @@ def getGoal(user_id, title):
         "startDate": 3826378216983,
         "endDate": 32738972198372,
         "timeSpent": 42069,
-        "description": "I love communism"
-        "isComplete": False
+        "description": "I love communism",
+        "isComplete": False,
+        "timeNeeded": 69696969
 
     }
     NOTE:
@@ -256,7 +257,7 @@ def getGoal(user_id, title):
     return r.json()['message']
 
 
-def addGoal(user_id, title, start, end, description, is_complete=False, time_spent=0):
+def addGoal(user_id, title, start, end, description, time_needed, is_complete=False, time_spent=0):
     """
     :param user_id: id of the user who will own the goal
     :param title: title of the goal
@@ -265,6 +266,7 @@ def addGoal(user_id, title, start, end, description, is_complete=False, time_spe
     :param time_spent: time spent on the goal (seconds)
     :param description: description of the goal
     :param is_complete: whether the goal was complete or not
+    :param time_needed: the amount of time needed to complete the goal
     :return: True if successful other wise throws an exception
     NOTE:
     Notice you cannot set the goal icon here. I cannot seem to find a way to send the bytes of the image here to to save
@@ -278,7 +280,8 @@ def addGoal(user_id, title, start, end, description, is_complete=False, time_spe
         "endDate": end,
         "timeSpent": time_spent,
         "description": description,
-        "isComplete": is_complete
+        "isComplete": is_complete,
+        "timeNeeded": time_needed
 
     }
     r = requests.post(f'{base_url}/user/{user_id}/addGoal', json=json, auth=auth)
@@ -297,8 +300,9 @@ def getUsersGoals(user_id):
             "startDate": 3826378216983,
             "endDate": 32738972198372,
             "timeSpent": 42069,
-            "description": "I love communism"
-            "isComplete": False
+            "description": "I love communism",
+            "isComplete": False,
+            "timeNeeded": 69696969
         }
 
     ]

@@ -23,6 +23,9 @@ public class Goal {
     @Column(nullable = false, name="end_date")
     private Date endDate;
 
+    @Column(nullable = false, name="time_needed")
+    private Long timeNeeded;
+
     @Column(nullable = false, name="time_spent")
     private Long timeSpent;
 
@@ -48,6 +51,7 @@ public class Goal {
         isComplete = dto.isComplete();
         startDate = new Date(dto.getStartDate());
         endDate = new Date(dto.getEndDate());
+        timeNeeded = dto.getTimeNeeded();
 
     }
 
@@ -107,12 +111,21 @@ public class Goal {
         this.goalIcon = goalIcon;
     }
 
+    public Long getTimeNeeded() {
+        return timeNeeded;
+    }
+
+    public void setTimeNeeded(Long timeNeeded) {
+        this.timeNeeded = timeNeeded;
+    }
+
     @Override
     public String toString() {
         return "Goal{" +
                 "goalId=" + goalId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", timeNeeded=" + timeNeeded +
                 ", timeSpent=" + timeSpent +
                 ", description='" + description + '\'' +
                 ", isComplete=" + isComplete +
