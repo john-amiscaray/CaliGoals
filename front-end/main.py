@@ -132,9 +132,9 @@ top_bar_layout = [
 
 badges_frame = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge2.png', border_width=0, image_subsample=2)],
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge1.png', border_width=0, image_subsample=2)],
 ]
 
 # layout for the badges
@@ -145,9 +145,9 @@ badges_layout = [
 # layout for friend badges
 friend_badges_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge1.png', border_width=0, image_subsample=2)],
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge3.png', border_width=0, image_subsample=2)],
 ]
 
 goals_frame = [
@@ -382,8 +382,6 @@ while True:
     elif event == '-YOUR_CAT-':
         sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
 
-<<<<<<< HEAD
-=======
     elif event == '-FRIEND_GOALS_LIST-':
         goal = values['-FRIEND_GOALS_LIST-']
         if len(goal) > 0:
@@ -392,6 +390,4 @@ while True:
             # I WAS HERE
             sg.popup_ok(back.getGoal(id, goal_title)['description'])
 
-
->>>>>>> 0071a280d25f1c326cfefc33a9a1422c85031b0b
 window.close()
