@@ -10,8 +10,10 @@ public class GoalDto {
     private Long startDate;
     private Long endDate;
     private Long timeSpent;
+    private Long timeNeeded;
     private String description;
     private boolean isComplete;
+
 
     public GoalDto() {
     }
@@ -25,6 +27,7 @@ public class GoalDto {
         timeSpent = goal.getTimeSpent();
         description = goal.getDescription();
         isComplete = goal.isComplete();
+        timeNeeded = goal.getTimeNeeded();
 
     }
 
@@ -82,5 +85,13 @@ public class GoalDto {
 
     public void setComplete(boolean complete) {
         isComplete = complete;
+    }
+
+    public Long getTimeNeeded() {
+        return timeNeeded;
+    }
+
+    public void setTimeNeeded(Long timeNeeded) {
+        this.timeNeeded = timeNeeded;
     }
 }

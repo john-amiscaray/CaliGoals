@@ -73,7 +73,9 @@ def fill_goals(userId):
     goals = back.getUsersGoals(userId)
     refresh_growth(userId)
     for g in goals:
-        list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minutes"])
+        if g['complete']:
+            continue
+        list_goals.append([g['title'], f"Description:\n{g['description']}\nTimeSpent: {g['timeSpent'] // 6000} minute(s) / {g['timeNeeded'] // 6000} minutes"])
         list_goal_titles.append(g['title'])
 
 def fill_friends(userId):
@@ -378,7 +380,7 @@ while True:
 
         window['-GOALS_LIST-'].update(list_goal_titles)
 
-        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc)
+        back.addGoal(user_id, new_goal_title, time_as_int(), time_as_int() + 1, new_goal_desc, new_goal_time * 6000)
 
     # user clicks on goal, bring up goal description
     elif event == '-GOALS_LIST-':
