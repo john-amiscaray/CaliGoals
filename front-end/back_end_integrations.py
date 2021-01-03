@@ -76,7 +76,6 @@ def getProfilePicture(user_id,file_name='pfp'):
     return location
 
 
-
 def getUserFriends(user_id):
     """
     :param user_id: the id of the user you are interested in
