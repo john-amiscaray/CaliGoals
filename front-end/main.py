@@ -142,9 +142,11 @@ top_bar_layout = [
 
 badges_frame = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'badge2.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge2.png', border_width=0)],
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'badge1.png', border_width=0, image_subsample=2)],
+            image_filename=r'badge1.png', border_width=0)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'badge4.png', border_width=0)],
 ]
 
 # layout for the badges
@@ -152,12 +154,18 @@ badges_layout = [
     [Frame('Badges', badges_frame, font=('Courier', 12, 'bold'), background_color=sg.theme_input_background_color())]
 ]
 
+friends_badges_frame = [
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'badge1.png', border_width=0)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'badge5.png', border_width=0)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'badge3.png', border_width=0)],
+]
+
 # layout for friend badges
 friend_badges_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'badge1.png', border_width=0, image_subsample=2)],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'badge3.png', border_width=0, image_subsample=2)],
+[Frame('Badges', friends_badges_frame, font=('Courier', 12, 'bold'), background_color=sg.theme_input_background_color())]
 ]
 
 goals_frame = [
