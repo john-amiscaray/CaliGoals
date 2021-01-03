@@ -390,8 +390,8 @@ while True:
         if new_goal_time is None: continue
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
-            new_goal_time = str(
-                sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time'))
+            new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+            if new_goal_time is None: break
 
         list_goals.append([new_goal_title, new_goal_desc, new_goal_time])
         list_goal_titles.append(new_goal_title)
@@ -414,7 +414,7 @@ while True:
 
         # print(values['-GOALS_LIST-'], 'Description:', desc)
 
-        sg.popup_ok(values['-GOALS_LIST-'][0], desc)
+        sg.popup_ok(values['-GOALS_LIST-'][0], desc, font=('Courier', 10))
 
     elif event == '-YOUR_CAT-':
         sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
@@ -425,7 +425,7 @@ while True:
             goal_title = goal[0]
             id = current_friend['userId']
             # I WAS HERE
-            sg.popup_ok(back.getGoal(id, goal_title)['description'])
+            sg.popup_ok(back.getGoal(id, goal_title)['description'], font=('Courier', 10))
     elif event == '-COMPLETED_GOALS_LIST-':
         desc = None
 
@@ -439,6 +439,6 @@ while True:
 
         # print(values['-GOALS_LIST-'], 'Description:', desc)
 
-        sg.popup_ok(values['-COMPLETED_GOALS_LIST-'][0], desc)
+        sg.popup_ok(values['-COMPLETED_GOALS_LIST-'][0], desc, font=('Courier', 10))
 
 window.close()
