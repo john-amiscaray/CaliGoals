@@ -61,16 +61,28 @@ def getProfilePicture(user_id,file_name='pfp'):
     """
     r = requests.get(f'{base_url}/user/{user_id}/profile-picture', auth=auth)
     checkRequestSuccessful(r)
+    dimensions = (75, 75)
     if r.content:
         location = f'{file_name}.png'
         image = open(location, 'wb')
         image.write(r.content)
         image.close()
+<<<<<<< HEAD
         image = Image.open(location)
         new_image = image.resize((25, 25))
         new_image.save(location)
         return location
     return 'default_pfp.png'
+=======
+    else:
+        location = 'default_pfp.png'
+
+    image = Image.open(location)
+    new_image = image.resize(dimensions)
+    new_image.save(location)
+    return location
+
+>>>>>>> 801f6308ce9053f311de9b4e5e50a80c0a07aad3
 
 
 def getUserFriends(user_id):
