@@ -92,10 +92,10 @@ def update_goals():
     list_goal_titles = []
     complete_goals_titles = []
     fill_goals(user_id)
+    print(complete_goals_titles)
     window['-GOALS_LIST-'].update(list_goal_titles)
     print("Here")
-    window['-COMPLETED_GOALS_LIST-'].update(values=complete_goals_titles)
-    print(values['-COMPLETED_GOALS_LIST-'])
+    window['-COMPLETED_GOALS_LIST-'].update(complete_goals_titles)
 
 
 # ----- sublayouts -----#
@@ -200,7 +200,7 @@ goals_friend_frame = [
 ]
 
 completed_friend_goals = [
-    [Listbox(values=[], enable_events=True, size= (40,5), font=("Courier", 10), key="-COMPLETED_GOALS_LIST-")]
+    [Listbox(values=[], enable_events=True, size= (40,5), font=("Courier", 10), key="-FRIENDS_COMPLETED_GOALS_LIST-")]
 ]
 
 incomplete_goal_friend_frame = [
