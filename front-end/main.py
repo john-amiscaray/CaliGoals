@@ -150,9 +150,14 @@ friend_badges_layout = [
             image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
 ]
 
+goals_frame = [
+    [Text("\nGOALS", font=('Courier', 15), size=(27, 3), justification='centre', border_width=0)],
+]
+
+
 # layout for the goals
 goals_layout = [
-    [Text("\n\nGOALS", font=('Courier', 15), size = (27,3), justification= 'centre', border_width=0)],
+    [Frame('', goals_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     # listing the goals
     [Listbox(values=[], enable_events=True, size=(40, 20), font=('Courier', 10), key='-GOALS_LIST-',background_color='#E0DEDE'),
      Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0,
@@ -161,9 +166,13 @@ goals_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'plus_icon.png', border_width=0, key='-ADD_GOAL-', image_size=(100, 100)), Text('New Goal', font=('Courier', 12))],
 ]
 
+goals_friend_frame = [
+    [Text("\nGOALS", font=('Courier', 15), size=(27, 3), justification='centre', border_width=0)],
+]
+
 # layout for the goals ayayayaya
 friend_goals_layout = [
-    [Text("\n\nGOALS", font=('Courier', 15), size = (27,3), justification= 'centre', border_width=0)],
+    [Frame('', goals_friend_frame, background_color=sg.theme_input_background_color(), border_width=0)],
     # listing the goals
     [Listbox(values=[1, 2, 3], enable_events=True, size=(42, 20), key='-FRIEND_GOALS_LIST-',background_color='#E0DEDE')],
 ]
@@ -324,11 +333,11 @@ while True:
         if new_goal_title is None: continue
         new_goal_desc = sg.popup_get_text('Please input the description of your goal', 'Goal Description')
         if new_goal_desc is None: continue
+        # new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
+        # if new_goal_time is None: continue
+
         new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
         if new_goal_time is None: continue
-
-        new_goal_time = sg.popup_get_text('Please input how much time you want to spend on this goal in minutes', 'Goal Time')
-
         while not str(new_goal_time).isdigit():
             sg.popup_error('Please enter a valid number.')
             new_goal_time = str(
@@ -359,6 +368,14 @@ while True:
 
     elif event == '-YOUR_CAT-':
         sg.popup_quick_message(cat_msg[random.randint(0, len(cat_msg) - 1)], auto_close_duration=1, font=('Courier', 30, 'bold'), background_color='#BEF2F8', auto_close=True)
+
+    elif event == '-FRIEND_GOALS_LIST-':
+        goal = values['-FRIEND_GOALS_LIST-']
+        if len(goal) > 0:
+            goal_title = goal[0]
+            id = current_friend['userId']
+            # I WAS HERE
+            sg.popup_ok(back.getGoal(id, goal_title)['description'])
 
 
 window.close()
