@@ -163,7 +163,7 @@ friend_goals_layout = [
 # layout for your profile
 my_profile_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png',
-            border_width=0, image_subsample=2, key='-YOUR_CAT-'),
+            border_width=0, key='-YOUR_CAT-', image_subsample=2),
      Column(badges_layout),
      Column(goals_layout)],
 ]
