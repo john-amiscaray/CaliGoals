@@ -123,7 +123,7 @@ top_bar_frame_layout = [
             image_filename=r'home_icon.png', border_width=0, key='-HOME-'),
      Text(' '*40, text_color=sg.theme_button_color()[0], background_color=sg.theme_button_color()[0]),
      Button(button_color=(sg.theme_button_color()[0], sg.theme_button_color()[0]),
-            image_filename=r'default_pfp.png', border_width=0, image_subsample=8)]  # top row of the profile
+            image_filename=r'default_pfp.png', border_width=0, image_subsample=8, key='-PFP-')]  # top row of the profile
 ]
 
 top_bar_layout = [
@@ -167,7 +167,7 @@ friend_goals_layout = [
 # layout for your profile
 my_profile_layout = [
     [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename=r'full_cat.png',
-            border_width=0, image_subsample=2, key='-YOUR_CAT-'),
+            border_width=0, key='-YOUR_CAT-', image_subsample=2),
      Column(badges_layout),
      Column(goals_layout)],
 ]
@@ -236,7 +236,8 @@ while True:
 
         try:
             user_id = back.login((user, password))
-        except:
+            window['-PFP-'].update(image_filename=back.getProfilePicture(user_id))
+        except RequestException:
             sg.popup_error('wrong credentials')
             continue
 
