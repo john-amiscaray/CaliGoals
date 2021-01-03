@@ -126,12 +126,16 @@ top_bar_layout = [
     [Frame('', top_bar_frame_layout, background_color=sg.theme_button_color()[0], border_width=5)]
 ]
 
+badges_frame = [
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+]
+
 # layout for the badges
 badges_layout = [
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
-    [Button(button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            image_filename=r'picture_placeholder.png', border_width=0, image_subsample=2)],
+    [Frame('Badges', badges_frame, font=('Courier', 12, 'bold'), background_color=sg.theme_input_background_color())]
 ]
 
 # layout for friend badges
