@@ -74,7 +74,7 @@ def getProfilePicture(user_id,file_name='pfp'):
     new_image = image.resize(dimensions)
     new_image.save(location)
     return location
- 
+
 
 
 def getUserFriends(user_id):
