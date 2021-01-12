@@ -25,21 +25,21 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user/{userId}/post")
-    public ResponseEntity<Response> addPost(@PathVariable("userId") Long userId, @RequestBody PostDto dto){
+    @PostMapping("/user/post")
+    public ResponseEntity<Response> addPost(@RequestBody PostDto dto){
 
-        dto.setUserId(userId);
+        dto.setUserId(userService.getLoggedInUser().getId());
         Post post = postService.addPost(dto);
-        userService.addPost(post, userId);
+        userService.addPost(post, userService.getLoggedInUser().getId());
         return new ResponseEntity<>(new Response(post.getPostId()), HttpStatus.OK);
 
     }
 
-    @PostMapping(value="/user/{userId}/post/{postId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> setPostImage(@PathVariable("userId") Long userId, @RequestParam MultipartFile
+    @PostMapping(value="/user/post/{postId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response> setPostImage(@RequestParam MultipartFile
             file, @PathVariable("postId") Long postId) throws IOException, IllegalAccessException {
 
-        postService.setImage(postId, file, userId);
+        postService.setImage(postId, file, userService.getLoggedInUser().getId());
         return new ResponseEntity<>(new Response("Post image set successfully"), HttpStatus.OK);
 
     }
@@ -79,10 +79,10 @@ public class PostController {
 
     }
 
-    @GetMapping("/user/{userId}/feed")
-    public ResponseEntity<Response> getPostsOfUsersFriends(@PathVariable("userId") Long userId){
+    @GetMapping("/user/feed")
+    public ResponseEntity<Response> getPostsOfUsersFriends(){
 
-        return new ResponseEntity<>(new Response(postService.getFeed(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(postService.getFeed(userService.getLoggedInUser().getId())), HttpStatus.OK);
 
     }
 

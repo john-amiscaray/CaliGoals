@@ -1,5 +1,6 @@
 package io.caligoals.caligoals.controllers;
 
+import io.caligoals.caligoals.dtos.AppUserDetails;
 import io.caligoals.caligoals.dtos.Response;
 import io.caligoals.caligoals.dtos.UserDto;
 import io.caligoals.caligoals.entities.User;
@@ -32,21 +33,22 @@ public class UserController {
 
     }
 
-    @PostMapping(value="/user/{userId}/profile-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> setProfilePicture(@PathVariable("userId") Long userId, @RequestParam MultipartFile file) throws IOException {
+    @PostMapping(value="/user/profile-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response> setProfilePicture(@RequestParam MultipartFile file) throws IOException {
 
-        userService.setProfilePicture(userId, file);
+        userService.setProfilePicture(userService.getLoggedInUser().getId(), file);
         return new ResponseEntity<>(new Response("Profile picture set successfully"), HttpStatus.OK);
 
     }
 
-    @GetMapping("/user/{userId}/add-friend/{friendId}")
-    public ResponseEntity<Response> addFriend(@PathVariable("userId") Long userId, @PathVariable("friendId") Long friendId){
+    @PutMapping("/user/add-friend/{friendId}")
+    public ResponseEntity<Response> addFriend(@PathVariable("friendId") Long friendId){
 
-        if(userId.equals(friendId)) {
+        AppUserDetails user = userService.getLoggedInUser();
+        if(user.getId().equals(friendId)) {
             return ResponseEntity.badRequest().build();
         }
-        userService.addAsFriend(friendId, userId);
+        userService.addAsFriend(friendId, user.getId());
         return new ResponseEntity<>(new Response("Successfully added friend"), HttpStatus.OK);
 
     }
@@ -67,10 +69,10 @@ public class UserController {
 
     }
 
-    @PutMapping("/user/{userId}/addGrowth/{growthAmount}")
-    public ResponseEntity<Response> addGrowth(@PathVariable("userId") Long userId, @PathVariable("growthAmount") Long growthAmount){
+    @PutMapping("/user/addGrowth/{growthAmount}")
+    public ResponseEntity<Response> addGrowth(@PathVariable("growthAmount") Long growthAmount){
 
-        userService.addToGrowthAmount(growthAmount, userId);
+        userService.addToGrowthAmount(growthAmount, userService.getLoggedInUser().getId());
         return new ResponseEntity<>(new Response("Successfully grown cat"), HttpStatus.OK);
 
     }

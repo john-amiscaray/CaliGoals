@@ -1,9 +1,11 @@
 package io.caligoals.caligoals.controllers;
 
+import io.caligoals.caligoals.dtos.AppUserDetails;
 import io.caligoals.caligoals.dtos.CommentDto;
 import io.caligoals.caligoals.dtos.Response;
 import io.caligoals.caligoals.services.CommentService;
 import io.caligoals.caligoals.services.PostService;
+import io.caligoals.caligoals.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class CommentController {
     private PostService postService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/post/{postId}/comments")
     public ResponseEntity<Response> getAllCommentsOfPost(@PathVariable("postId") Long postId){
@@ -29,12 +33,13 @@ public class CommentController {
 
     }
 
-    @PostMapping("/user/{userId}/post/{postId}/comment")
-    public ResponseEntity<Response> addComment(@RequestBody CommentDto dto, @PathVariable("userId") Long userId,
+    @PostMapping("/post/{postId}/comment")
+    public ResponseEntity<Response> addComment(@RequestBody CommentDto dto,
                                                @PathVariable("postId") Long postId){
 
+        AppUserDetails user = userService.getLoggedInUser();
         dto.setPostId(postId);
-        dto.setUserId(userId);
+        dto.setUserId(user.getId());
         commentService.addComment(dto);
         return new ResponseEntity<>(new Response("Successfully added comment"), HttpStatus.OK);
 

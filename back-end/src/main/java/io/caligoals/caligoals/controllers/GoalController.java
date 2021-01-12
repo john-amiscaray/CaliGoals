@@ -1,5 +1,6 @@
 package io.caligoals.caligoals.controllers;
 
+import io.caligoals.caligoals.dtos.AppUserDetails;
 import io.caligoals.caligoals.dtos.GoalDto;
 import io.caligoals.caligoals.dtos.Response;
 import io.caligoals.caligoals.entities.Goal;
@@ -36,16 +37,17 @@ public class GoalController {
     @PutMapping("/user/goal/edit")
     public ResponseEntity<Response> editGoal(@RequestBody GoalDto dto){
 
+        dto.setUserId(userService.getLoggedInUser().getId());
         goalService.editGoal(dto);
         return new ResponseEntity<>(new Response("Successfully edited goal"), HttpStatus.OK);
 
     }
 
-    @PostMapping(value="/user/{userId}/goal/{title}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> setGoalImage(@PathVariable("userId") Long userId, @RequestParam MultipartFile
+    @PostMapping(value="/user/goal/{title}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response> setGoalImage(@RequestParam MultipartFile
             file, @PathVariable("title") String title){
 
-        GoalId goalId = new GoalId(userService.getUser(userId), title);
+        GoalId goalId = new GoalId(userService.getUser(userService.getLoggedInUser().getId()), title);
         goalService.setImage(goalId, file);
         return new ResponseEntity<>(new Response("Goal icon set successfully"), HttpStatus.OK);
 
@@ -69,26 +71,21 @@ public class GoalController {
 
     }
 
-    @PostMapping("/user/{userId}/addGoal")
-    public ResponseEntity<Response> addGoal(@PathVariable("userId") Long userId, @RequestBody GoalDto dto){
+    @PostMapping("/user/addGoal")
+    public ResponseEntity<Response> addGoal(@RequestBody GoalDto dto){
 
-        if(dto.getUserId().equals(userId)) {
-            goalService.addGoal(dto);
-            return new ResponseEntity<>(new Response("Successfully added goal"), HttpStatus.OK);
-        }else{
+        dto.setUserId(userService.getLoggedInUser().getId());
+        goalService.addGoal(dto);
+        return new ResponseEntity<>(new Response("Successfully added goal"), HttpStatus.OK);
 
-            return ResponseEntity.badRequest().build();
-
-        }
 
     }
 
-    @PutMapping("/user/{userId}/goal/{title}/addTime/{time}")
-    public ResponseEntity<Response> addTimeToGoal(@PathVariable("userId") Long userId,
-                                                  @PathVariable("title") String title,
+    @PutMapping("/user/goal/{title}/addTime/{time}")
+    public ResponseEntity<Response> addTimeToGoal(@PathVariable("title") String title,
                                                   @PathVariable("time") Long timesSpent){
 
-        goalService.addTimeToGoal(title, userId, timesSpent);
+        goalService.addTimeToGoal(title, userService.getLoggedInUser().getId(), timesSpent);
         return new ResponseEntity<>(new Response("Successfully added time to goal"), HttpStatus.OK);
 
     }

@@ -1,10 +1,13 @@
 package io.caligoals.caligoals.services;
 
 import io.caligoals.caligoals.data.UserRepo;
+import io.caligoals.caligoals.dtos.AppUserDetails;
 import io.caligoals.caligoals.dtos.UserDto;
 import io.caligoals.caligoals.entities.Post;
 import io.caligoals.caligoals.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -117,6 +120,13 @@ public class UserService {
         User user = getUser(userId);
         user.getPosts().add(post);
         updateUser(user);
+
+    }
+
+    public AppUserDetails getLoggedInUser(){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return ((AppUserDetails) auth.getPrincipal());
 
     }
 
