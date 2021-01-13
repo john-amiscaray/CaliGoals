@@ -25,13 +25,5 @@ public class AuthController {
 
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<Response> login(){
-
-        AppUserDetails user = userService.getLoggedInUser();
-        return new ResponseEntity<>(new Response(user.getId()), HttpStatus.OK);
-
-    }
-
 
 }
